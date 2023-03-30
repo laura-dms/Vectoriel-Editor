@@ -42,3 +42,121 @@ void print_line(Line * line) //Display on the screen the coordinates of Line
 {
     printf("\nLINE %d %d %d %d", line->p1->pos_x, line->p1->pos_y,line->p2->pos_x,line->p2->pos_y);
 }
+
+//Prototypes of functions on the structure Square
+Square *create_square(Point * point, int length) //enter the coordinates of Point (pos_x, pos_y)
+{
+    //line*l1=*create_line(Point*point, *create_point(point->pos_x, point->pos_y+length));
+    Square *square = (Square *) malloc(length*length * sizeof(square)); //allocate a new square (4*(length-1))
+    //Length of the square
+    square->length=length;
+
+    //**Coordinates of the 4 points of the square**//
+    // p1 = px, py
+    //p2 = px, py+length
+    //p3 = px+length, py
+    //p4 = px+length, py+length
+
+    //Point 1
+    square->point1->pos_x=point->pos_x;
+    square->point1->pos_y=point->pos_y;
+
+    Point *pp2; //define the 3 others points
+    Point *pp3;
+    Point *pp4;
+    //Point 2
+    pp2 = create_point(point->pos_x, point->pos_y + square->length);
+    square->point2->pos_x=pp2->pos_x;
+    square->point2->pos_y=pp2->pos_y;
+
+    //Point 3 => problème : ne veut pas s'afficher avec la fonction print_square /!\
+    //pp3 = create_point(point->pos_x + square->length, point->pos_y);
+    //square->point3->pos_x=pp3->pos_x;
+    //square->point3->pos_y=pp3->pos_y;
+
+    //Point 4 => problème : ne veut pas s'afficher avec la fonction print_square /!\
+    //pp4 = create_point(point->pos_x + square->length, point->pos_y + square->length);
+    //square->point4->pos_x=pp4->pos_x;
+    //square->point4->pos_y=pp4->pos_y;
+
+    return square;
+}
+    //for (int i=0; i<length;i++) //iterate in the number of lines
+    //{
+       //if (i==0) //line 1
+       //{
+         // *(square+i)=*create_line(point, create_point(point->pos_x, point->pos_y+length));
+       //}
+       //if (i==1) //line 2
+       //{
+         // *(square+i)=create_line(create_point(point->pos_x, point->pos_y+1), create_point(point->pos_x, point->pos_y+length+1));
+       //}
+       //if (i==2) //line 3
+       //{
+         //  *(square+i)=*create_line(create_point(point->pos_x, point->pos_y+2), create_point(point->pos_x, point->pos_y+length+2));
+       //}
+       //if (i==3) //line 4
+         //  {
+           //*(square+i)=*create_line(create_point(point->pos_x+length-1, point->pos_y), create_point(point->pos_x+length-1, point->pos_y+length-1));
+           //}
+    //}
+    // DO WE HAVE TO DO A 2D array of size length*length + iterate at each line to create a new "line" ???
+
+void delete_square(Square * square)
+{
+    free(square); //free the memory allocated for the structure square
+}
+
+void print_square(Square * square)
+{
+    printf("\nSQUARE P1 %d %d %d", square->point1->pos_x, square->point1->pos_y, square->length); //p1 pos_x,p1 pos_y, length
+    printf("\nP2 %d %d", square->point2->pos_x, square->point2->pos_y);
+    //printf("\nP3 %d %d", square->point3->pos_x, square->point3->pos_y);
+    //printf("\nP4 %d %d", square->point4->pos_x, square->point4->pos_y);
+}
+
+//Prototypes of functions of Structure Rectangle
+Rectangle *create_rectangle(Point * point, int width, int height) {
+    Rectangle *rectangle = (Rectangle *) malloc(
+            width * height * sizeof(rectangle)); //allocate dynamically the structure rectangle
+
+    rectangle->length = height;
+    rectangle->width = width;
+
+    //Point 1
+    rectangle->initialpoint->pos_x = point->pos_x;
+    rectangle->initialpoint->pos_y = point->pos_y;
+
+
+    Point *r2; //define the 3 others points
+    Point *r3;
+    Point *r4;
+
+    //Point 2
+    r2 = create_point(point->pos_x, point->pos_y + rectangle->length);
+    rectangle->ndpoint->pos_x = r2->pos_x;
+    rectangle->ndpoint->pos_y = r2->pos_y;
+
+    //Point 3
+    r3 = create_point(point->pos_x + rectangle->width, point->pos_y);
+    rectangle->rdpoint->pos_x = r3->pos_x;
+    rectangle->rdpoint->pos_y = r3->pos_y;
+
+    //Point 4
+    r4 = create_point(point->pos_x + rectangle->width, point->pos_y + +rectangle->length);
+    rectangle->thpoint->pos_x = r4->pos_x;
+    rectangle->thpoint->pos_y = r4->pos_y;
+
+    return rectangle;
+}
+void delete_rectangle(Rectangle * rectangle)
+{
+    free(rectangle); //free the memory dynamically allocated for the rectangle
+}
+void print_rectangle(Rectangle * rectangle)
+{
+    printf("\nRECTANGLE P1 %d %d %d %d", rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y,rectangle->length, rectangle->width); //p1 pos_x,p1 pos_y, length
+    //printf("\nP2 %d %d", rectangle->ndpoint->pos_x, rectangle->ndpoint->pos_y); //p1 pos_x,p1 pos_y, length
+    //printf("\nP3 %d %d", rectangle->rdpoint->pos_x, rectangle->rdpoint->pos_y); //p1 pos_x,p1 pos_y, length
+    //printf("\nP4 %d %d", rectangle->thpoint->pos_x, rectangle->thpoint->pos_y); //p1 pos_x,p1 pos_y, length
+}
