@@ -69,12 +69,12 @@ Square *create_square(Point * point, int length) //enter the coordinates of Poin
     square->point2->pos_x=pp2->pos_x;
     square->point2->pos_y=pp2->pos_y;
 
-    //Point 3 => problème : ne veut pas s'afficher avec la fonction print_square /!\
+    //Point 3 => problème : ne veut pas s'afficher avec la fonction print_square
     //pp3 = create_point(point->pos_x + square->length, point->pos_y);
     //square->point3->pos_x=pp3->pos_x;
     //square->point3->pos_y=pp3->pos_y;
 
-    //Point 4 => problème : ne veut pas s'afficher avec la fonction print_square /!\
+    //Point 4 => problème : ne veut pas s'afficher avec la fonction print_square
     //pp4 = create_point(point->pos_x + square->length, point->pos_y + square->length);
     //square->point4->pos_x=pp4->pos_x;
     //square->point4->pos_y=pp4->pos_y;
@@ -111,26 +111,25 @@ void print_square(Square * square)
 {
     printf("\nSQUARE P1 %d %d %d", square->point1->pos_x, square->point1->pos_y, square->length); //p1 pos_x,p1 pos_y, length
     printf("\nP2 %d %d", square->point2->pos_x, square->point2->pos_y);
-    //printf("\nP3 %d %d", square->point3->pos_x, square->point3->pos_y);
-    //printf("\nP4 %d %d", square->point4->pos_x, square->point4->pos_y);
+    printf("\nP3 %d %d", square->point3->pos_x, square->point3->pos_y);
+    printf("\nP4 %d %d", square->point4->pos_x, square->point4->pos_y);
 }
 
 //Prototypes of functions of Structure Rectangle
 Rectangle *create_rectangle(Point * point, int width, int height) {
-    Rectangle *rectangle = (Rectangle *) malloc(
-            width * height * sizeof(rectangle)); //allocate dynamically the structure rectangle
+    Rectangle *rectangle = (Rectangle *) malloc(width * height * sizeof(rectangle)); //allocate dynamically the structure rectangle
 
-    rectangle->length = height;
-    rectangle->width = width;
+    rectangle->length = width;
+    rectangle->width = height;
 
     //Point 1
     rectangle->initialpoint->pos_x = point->pos_x;
     rectangle->initialpoint->pos_y = point->pos_y;
 
 
-    Point *r2; //define the 3 others points
-    Point *r3;
-    Point *r4;
+    Point * r2; //define the 3 others points
+    Point * r3;
+    Point * r4;
 
     //Point 2
     r2 = create_point(point->pos_x, point->pos_y + rectangle->length);
@@ -138,14 +137,14 @@ Rectangle *create_rectangle(Point * point, int width, int height) {
     rectangle->ndpoint->pos_y = r2->pos_y;
 
     //Point 3
-    r3 = create_point(point->pos_x + rectangle->width, point->pos_y);
-    rectangle->rdpoint->pos_x = r3->pos_x;
-    rectangle->rdpoint->pos_y = r3->pos_y;
+    //r3 = create_point(point->pos_x + rectangle->width, point->pos_y);
+    //rectangle->rdpoint->pos_x = r3->pos_x;
+    //rectangle->rdpoint->pos_y = r3->pos_y;
 
     //Point 4
-    r4 = create_point(point->pos_x + rectangle->width, point->pos_y + +rectangle->length);
-    rectangle->thpoint->pos_x = r4->pos_x;
-    rectangle->thpoint->pos_y = r4->pos_y;
+    //r4 = create_point(point->pos_x + rectangle->width, point->pos_y + +rectangle->length);
+    //rectangle->thpoint->pos_x = r4->pos_x;
+    //rectangle->thpoint->pos_y = r4->pos_y;
 
     return rectangle;
 }
@@ -156,7 +155,45 @@ void delete_rectangle(Rectangle * rectangle)
 void print_rectangle(Rectangle * rectangle)
 {
     printf("\nRECTANGLE P1 %d %d %d %d", rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y,rectangle->length, rectangle->width); //p1 pos_x,p1 pos_y, length
-    //printf("\nP2 %d %d", rectangle->ndpoint->pos_x, rectangle->ndpoint->pos_y); //p1 pos_x,p1 pos_y, length
-    //printf("\nP3 %d %d", rectangle->rdpoint->pos_x, rectangle->rdpoint->pos_y); //p1 pos_x,p1 pos_y, length
-    //printf("\nP4 %d %d", rectangle->thpoint->pos_x, rectangle->thpoint->pos_y); //p1 pos_x,p1 pos_y, length
+    printf("\nP2 %d %d", rectangle->ndpoint->pos_x, rectangle->ndpoint->pos_y); //p1 pos_x,p1 pos_y, length
+    printf("\nP3 %d %d", rectangle->rdpoint->pos_x, rectangle->rdpoint->pos_y); //p1 pos_x,p1 pos_y, length
+    printf("\nP4 %d %d", rectangle->thpoint->pos_x, rectangle->thpoint->pos_y); //p1 pos_x,p1 pos_y, length
+}
+
+//Prototypes of the functions of Structure Circle
+Circle *create_circle(Point * center, int radius)
+{
+    Circle * circle= (Circle*)malloc(radius*sizeof(Circle));
+    circle->radius = radius;
+    circle->center = center;
+
+    return circle;
+}
+void delete_circle(Circle * circle)
+{
+    free(circle);
+}
+void print_circle(Circle * circle)
+{
+    printf("\nCIRCLE Point_center %d %d %d", circle->center->pos_x, circle->center->pos_y, circle->radius);
+}
+
+//Prototypes of the functions of Structure Circle
+Polygon *create_polygon(int n)
+{
+    Polygon * polygon = (Polygon*)malloc(n*n*sizeof(Polygon));
+
+    return polygon;
+}
+void delete_polygon(Polygon * polygon)
+{
+    free(polygon);
+}
+void print_polygon(Polygon * polygon)
+{
+    printf("\nPOLYGON Array of Points");
+    printf("\n");
+    for (int i =0; i<polygon->n; i++) {
+        print_point(polygon->points[i]);
+    }
 }
