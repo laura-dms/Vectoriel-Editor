@@ -54,4 +54,25 @@ Rectangle *create_rectangle(Point * point, int width, int height);
 void delete_rectangle(Rectangle * rectangle);
 void print_rectangle(Rectangle * rectangle);
 
+//Structure Circle
+typedef struct circle {
+    Point * center;
+    int radius;
+}Circle;
+
+//Definitions of the functions associated to the structure Circle
+Circle *create_circle(Point * center, int radius);
+void delete_circle(Circle * circle);
+void print_circle(Circle * circle);
+
+//Structure Polygon
+typedef struct polygon {
+    int n;
+    Point ** points; // dynamic list 1D of Point*
+}Polygon;
+
+Polygon *create_polygon(Polygon * polygon, int n);
+void delete_polygon(Polygon * polygon);
+void print_polygon(Polygon * polygon);
+
 #endif
