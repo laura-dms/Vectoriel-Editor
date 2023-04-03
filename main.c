@@ -24,12 +24,25 @@ int main() {
     delete_square(s); //free the dynamic allocation of the structure square
     delete_point(pp);  //free the dynamic allocation of the structure point 3
 
-    //Stucture Rectangle
+    //Structure Rectangle
     Point * p4 = create_point (6, 13);
 
     Rectangle * r = create_rectangle(p4, 10, 15); //create the square
     print_rectangle(r); //display the coordinates of the 4th points of the square
     delete_rectangle(r); //free the dynamic allocation of the structure square
     delete_point(p4);  //free the dynamic allocation of the structure point 3
+
+    //Structure Circle
+    Point * pp1 = create_point(10,9);
+
+    Circle * c = create_circle(pp1,5);
+    print_circle(c);
+    delete_circle(c);
+
+    //Stucture Polygon
+    //Point * p5 = create_point(0,0);
+
+    //Polygon * polygon = create_polygon(15);
+
     return 0;
 }
