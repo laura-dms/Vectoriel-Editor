@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include "shapes.h"
+#include "menu.h"
 
 int main() {
     //Structure Point
     Point * p = create_point (10, 15);
+
     print_point(p);
     delete_point(p);
 
     //Structure Line
     Point * p1 = create_point (10, 15);
     Point * p2 = create_point (21, 25);
+
     Line * l = create_line (p1 ,p2);
     print_line (l);
     delete_line(l);//free the dynamic allocation of the structure line
@@ -38,11 +41,13 @@ int main() {
     Circle * c = create_circle(pp1,5);
     print_circle(c);
     delete_circle(c);
+    delete_point(pp1);
 
-    //Stucture Polygon
-    //Point * p5 = create_point(0,0);
+    //Structure Polygon ❌does not work yet
+    Polygon * polygon = create_polygon(3);
+    print_polygon(polygon);
 
-    //Polygon * polygon = create_polygon(15);
+    //menu();
 
     return 0;
 }
