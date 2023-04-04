@@ -28,9 +28,6 @@ void print_line(Line * line);
 
 typedef struct square { //square is represented by a point (corner superior left) and a length
     Point * point1;
-    Point * point2;
-    Point * point3;
-    Point * point4;
     int length;
 }Square;
 
@@ -42,9 +39,6 @@ void print_square(Square * square);
 //Structure Rectangle
 typedef struct rectangle { //square is represented by a point (corner superior left),a length and a width
     Point * initialpoint; //1st point
-    Point * ndpoint; //2nd point
-    Point * rdpoint; //3rd point
-    Point * thpoint; //4th point
     int length; //dimensions of the rectangle
     int width;
 }Rectangle;
@@ -68,10 +62,10 @@ void print_circle(Circle * circle);
 //Structure Polygon
 typedef struct polygon {
     int n;
-    Point ** points; // dynamic list 1D of Point*
+    Point ** points; // dynamic 1D list of Point*
 }Polygon;
 
-Polygon *create_polygon(Polygon * polygon, int n);
+Polygon *create_polygon(int n);
 void delete_polygon(Polygon * polygon);
 void print_polygon(Polygon * polygon);
 
