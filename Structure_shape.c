@@ -64,7 +64,37 @@ void delete_shape(Shape * shape)
     free(shape); //free the dynamic allocated memory of shape
 }
 
-void print_shape(Shape * shape)
+void print_shape(Shape * shape) //shp pointer as parameter : shp->ptrShape->p/l/s/r/c/poly
 {
-
+    printf("ID shape : %d", shape->id);
+    if (shape->id==0) //or typeof(shape->shape_type)==line
+    {
+        printf("\nShape type : Point");
+        print_point(shape->ptrShape);
+    }
+    else if (shape->id==1)
+    {
+        printf("\nShape type : Line");
+        print_line(shape->ptrShape);
+    }
+    else if (shape->id==2)
+    {
+        printf("\nShape type : Square");
+        print_square(shape->ptrShape);
+    }
+    else if (shape->id==3)
+    {
+        printf("\nShape type : Rectangle");
+        print_rectangle(shape->ptrShape);
+    }
+    else if (shape->id==4)
+    {
+        printf("\nShape type : Circle");
+        print_circle(shape->ptrShape);
+    }
+    else if (shape->id==5)
+    {
+        printf("\nShape type : Polygon");
+        print_polygon(shape->ptrShape);
+    }
 }
