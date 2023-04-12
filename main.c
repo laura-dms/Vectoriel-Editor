@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "shapes.h"
 #include "menu.h"
+#include "Structure_shape.h"
 
 int main() {
-    //Structure Point
+    /*Structure Point
     Point * p = create_point (10, 15);
 
     print_point(p);
@@ -45,9 +46,14 @@ int main() {
 
     //Structure Polygon ❌does not work yet
     Polygon * polygon = create_polygon(3);
-    print_polygon(polygon);
+    print_polygon(polygon);*/
 
     //menu();
 
+    //Shape
+    Shape * f1 = create_line_shape (10, 15, 21, 25);
+    print_shape (f1);
+    delete_shape (f1);
+    
     return 0;
 }
