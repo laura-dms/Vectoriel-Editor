@@ -19,7 +19,7 @@ void delete_point(Point * point){
 }
 
 void print_point(Point * p){ //Display on the screen the coordinates of Point
-    printf("POINT %d %d", p->pos_x, p->pos_y);
+    printf("POINT %d %d ", p->pos_x, p->pos_y);
 }
 
 
@@ -70,9 +70,9 @@ void delete_square(Square * square){
 
 void print_square(Square * square){
     printf("\nSQUARE %d %d %d |", square->point1->pos_x, square->point1->pos_y, square->length); //p1 pos_x,p1 pos_y, length
-    printf(" %d %d |", square->point1->pos_x + square->length, square->point1->pos_y);
+    /*printf(" %d %d |", square->point1->pos_x + square->length, square->point1->pos_y);
     printf(" %d %d |", square->point1->pos_x, square->point1->pos_y - square->length);
-    printf(" %d %d", square->point1->pos_x + square->length, square->point1->pos_y - square->length);
+    printf(" %d %d", square->point1->pos_x + square->length, square->point1->pos_y - square->length);*/
 }
 
 
@@ -98,9 +98,9 @@ void delete_rectangle(Rectangle * rectangle){
 
 void print_rectangle(Rectangle * rectangle){
     printf("\nRECTANGLE %d %d %d %d |", rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y,rectangle->length, rectangle->width); //p1 pos_x,p1 pos_y, length
-    printf(" %d %d |", rectangle->initialpoint->pos_x + rectangle->length, rectangle->initialpoint->pos_y);
+    /*printf(" %d %d |", rectangle->initialpoint->pos_x + rectangle->length, rectangle->initialpoint->pos_y);
     printf(" %d %d |", rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y - rectangle->width);
-    printf(" %d %d", rectangle->initialpoint->pos_x + rectangle->length, rectangle->initialpoint->pos_y - rectangle->width);
+    printf(" %d %d", rectangle->initialpoint->pos_x + rectangle->length, rectangle->initialpoint->pos_y - rectangle->width);*/
 }
 
 
@@ -131,10 +131,11 @@ Polygon *create_polygon(int n){
     int i, x, y;
     Point* pt;
     Polygon * polygon = (Polygon*)malloc(sizeof(Polygon));
+    polygon->n = n;
     polygon->points = (Point**)malloc(n*sizeof(Point*)); //-> créer la liste de points dynamiquement
     // 1st = last point : l'user remplit jusqu'au last-1 point (donc n points)
     for (i = 0; i < n; i++){
-        printf("Coor x y: ");
+        printf("\nCoor x y: ");
         scanf("%d %d", &x, &y);
         pt = create_point(x, y);
         polygon->points[i] = pt;
@@ -147,9 +148,10 @@ void delete_polygon(Polygon * polygon){
 }
 
 void print_polygon(Polygon * polygon){
-    printf("%d", polygon->n);
+    //printf("%d points", polygon->n);
     printf("\nPOLYGON ");
     for (int i =0; i<polygon->n; i++) {
         print_point(polygon->points[i]);
+        printf(" | ");
     }
 }
