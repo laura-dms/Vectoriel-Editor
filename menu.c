@@ -1,59 +1,104 @@
 #include "menu.h"
+#include "Structure_shape.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#define SIZE 100
+#define SIZE_MAX 25
 
-void menu(){
-    char shapes[0];
+int menu(int * nb_shape){
+    Shape* shapes = (Shape*)malloc(sizeof(Shape)*SIZE_MAX);
     char choice1[1] = "0";
-    int x1, y1, x2, y2;
+    int x1, y1, x2, y2, width, height;
 
-    printf("====================\n        MENU        \n====================\n\n"
+    printf("\n====================\n        MENU        \n====================\n\n"
            "----- Draw a shape -----\nType: \n- 'point'     - 'line'\n"
            "- 'square'    - 'rectangle'\n- 'circle'    - 'polygon'\n\n----- Display the shape list -----\nType 'list'"
-           "\n\n----- Delete a shape -----\nType 'delete'\n\n----- Display the screen -----\nType 'screen'\n\n"
-           "----- More commands -----\nType 'help'\n");
+           "\n\n----- Exit the program -----\nType 'exit'\n\n");
     scanf("%s", choice1);
 
 
     if (!strcmp(choice1, "point")){
-        printf("Enter the coordinates (x y) of the point: \n");
+        Shape* p;
+        printf("Enter the coordinates of the point ('x y'): \n");
         scanf("%d %d", &x1, &y1);
-        print_point(create_point(x1, y1));
-        //shapes[0] = point.px
+        p = create_point_shape(x1, y1);
+        print_shape(p);
+        nb_shape ++;
+        *(shapes + *nb_shape) = *p;
     }
+
     else if (!strcmp(choice1, "line")){
-        printf("Enter the coordinates of the 2 points of the line (x1 y1, x2 y2): \n");
+        Shape* l;
+        printf("Enter the coordinates of the 2 points of the line ('x1 y1, x2 y2'): \n");
         scanf("%d %d, %d %d", &x1, &y1, &x2, &y2);
-        print_line(create_line(create_point(x1, y1), create_point(x2, y2)));
+        l = create_line_shape(x1, y1, x2, y2);
+        print_shape(l);
+        nb_shape ++;
     }
+
     else if (!strcmp(choice1, "square")){
         //create square
+        Shape* s;
+        printf("Enter the coordinates of the upper left point and the size of the square ('x y size'): \n");
+        scanf("%d %d %d", &x1, &y1, &width);
+        s = create_square_shape(x1, y1, width);
+        print_shape(s);
+        nb_shape ++;
     }
+
     else if (!strcmp(choice1, "rectangle")){
         //create rectangle
+        Shape* r;
+        printf("Enter the coordinates of the upper left point, the width and the height of the rectangle ('x y width height'): \n");
+        scanf("%d %d %d %d", &x1, &y1, &width, &height);
+        r = create_rectangle_shape(x1, y1, width, height);
+        print_shape(r);
+        nb_shape ++;
     }
+
     else if (!strcmp(choice1, "circle")){
         //create circle
+        Shape* c;
+        printf("Enter the coordinates of the center of the circle, and its radius ('x y radius'): \n");
+        scanf("%d %d %d", &x1, &y1, &width);
+        c = create_circle_shape(x1, y1, width);
+        print_shape(c);
+        nb_shape ++;
     }
+
     else if (!strcmp(choice1, "polygon")){
         //create polygon
+        Shape* poly;
+        printf("Enter the number of points of your polygon : ");
+        scanf("%d", &width);
+        poly = create_polygon_shape(width);
+        print_shape(poly);
+        nb_shape ++;
     }
 
-
-    else if (!strcmp(choice1, "screen")){
-        //print drawings
-    }
     else if (!strcmp(choice1, "list")){
         //print shapes list
+        /*for (int i = 0; i < *nb_shape; i++){
+            print_shape();
+        }*/
+    }
+
+    else if (!strcmp(choice1, "exit")){
+        return 1;
+    }
+
+    /*else if (!strcmp(choice1, "screen")) {
+        //print drawings
     }
     else if (!strcmp(choice1, "delete")){
         //delete the choosen shape (via id ?) -> free(shape)
     }
     else if (!strcmp(choice1, "help")){
         //print more commands (exit the program, clear screen, change color (?))
-    }
+    }*/
+
     else{
         printf("This command does not exist!");
     }
+    return 0;
 }
