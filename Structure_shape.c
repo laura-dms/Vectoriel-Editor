@@ -12,89 +12,82 @@ Shape *create_empty_shape(SHAPE_TYPE shape_type) {
     return shp;
 }
 
-Shape *create_point_shape(int px, int py)
-{
+Shape *create_point_shape(int px, int py){
     Shape *shp = create_empty_shape(POINT);
-    Point *p = create_point(px, py);
-    shp->ptrShape = p;
+    Point *point = create_point(px, py);
+    shp->ptrShape = point;
     return shp;
 }
 
-Shape *create_line_shape(int px1, int py1, int px2, int py2)
-{
+Shape *create_line_shape(int px1, int py1, int px2, int py2){
     Shape *shp = create_empty_shape(LINE);
-    Line * l = create_line(create_point(px1,py1), create_point(px2,py2));
-    shp->ptrShape = l;
+    Line * line = create_line(create_point(px1,py1), create_point(px2,py2));
+    shp->ptrShape = line;
     return shp;
 }
 
-Shape *create_square_shape(int px, int py, int length)
-{
+Shape *create_square_shape(int px, int py, int length){
     Shape *shp = create_empty_shape(SQUARE);
-    Square * s = create_square(create_point(px,py), length);
-    shp->ptrShape = s;
+    Square * square = create_square(create_point(px,py), length);
+    shp->ptrShape = square;
     return shp;
 }
-Shape *create_rectangle_shape(int px, int py, int width, int height)
-{
+Shape *create_rectangle_shape(int px, int py, int width, int height){
     Shape *shp = create_empty_shape(RECTANGLE);
-    Rectangle * r = create_rectangle(create_point(px, py), width, height);
-    shp->ptrShape = r;
+    Rectangle * rectangle = create_rectangle(create_point(px, py), width, height);
+    shp->ptrShape = rectangle;
     return shp;
 }
 
-Shape *create_circle_shape(int px, int py, int radius)
-{
+Shape *create_circle_shape(int px, int py, int radius){
     Shape *shp = create_empty_shape(CIRCLE);
-    Circle * c = create_circle(create_point(px, py), radius);
-    shp->ptrShape = c;
+    Circle * circle = create_circle(create_point(px, py), radius);
+    shp->ptrShape = circle;
     return shp;
 }
 
-Shape *create_polygon_shape(int lst[], int n) //lst[] ) = 1D array of Point* of the polygon (
-{
+Shape *create_polygon_shape(int n){ //lst[] ) = 1D array of Point* of the polygon (
     Shape *shp = create_empty_shape(POLYGON);
     Polygon * poly = create_polygon(n);
     shp->ptrShape = poly;
     return shp;
 }
 
-void delete_shape(Shape * shape)
-{
+void delete_shape(Shape * shape){
     free(shape); //free the dynamic allocated memory of shape
 }
 
 void print_shape(Shape * shape) //shp pointer as parameter : shp->ptrShape->p/l/s/r/c/poly
 {
-    printf("ID shape : %d", shape->id);
-    if (shape->id==0) //or typeof(shape->shape_type)==line
+    printf("ID shape : %d\n", shape->id);
+    if (shape->shape_type==0) //or typeof(shape->shape_type)==line
     {
-        printf("\nShape type : Point");
+        //printf("\nShape type : Point");
         print_point(shape->ptrShape);
     }
-    else if (shape->id==1)
+    else if (shape->shape_type==1)
     {
-        printf("\nShape type : Line");
+        //printf("\nShape type : Line");
         print_line(shape->ptrShape);
     }
-    else if (shape->id==2)
+    else if (shape->shape_type==2)
     {
-        printf("\nShape type : Square");
+        //printf("\nShape type : Square");
         print_square(shape->ptrShape);
     }
-    else if (shape->id==3)
+    else if (shape->shape_type==3)
     {
-        printf("\nShape type : Rectangle");
+        //printf("\nShape type : Rectangle");
         print_rectangle(shape->ptrShape);
     }
-    else if (shape->id==4)
+    else if (shape->shape_type==4)
     {
-        printf("\nShape type : Circle");
+        //printf("\nShape type : Circle");
         print_circle(shape->ptrShape);
     }
-    else if (shape->id==5)
+    else if (shape->shape_type==5)
     {
-        printf("\nShape type : Polygon");
+        //printf("\nShape type : Polygon");
         print_polygon(shape->ptrShape);
     }
 }
