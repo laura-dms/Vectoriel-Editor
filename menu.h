@@ -2,6 +2,6 @@
 #define MENU_H
 #include "shapes.h"
 
-void menu();
+int menu(int * nb_shp);
 
 #endif
