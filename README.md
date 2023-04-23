@@ -1,1 +1,1 @@
-# Vectoriel-Editor
+# Vector Text-based Editor
