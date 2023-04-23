@@ -4,3 +4,5 @@
 03/04 : fonction menu (UX/UI + intégration des fonctions)
 
 05/04 : fonction void print_shape(Shape * shape) => comment savoir le type de shape à afficher (solution : shape->shape_type== number)
+
+20/04 : comment est initialisée la liste des shapes + comment l'intégrer à la fonction menu
