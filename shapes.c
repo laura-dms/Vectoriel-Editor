@@ -28,8 +28,8 @@ void print_point(Point * p){ //Display on the screen the coordinates of Point
 
 Line *create_line(Point * p1, Point * p2){ //Allocate dynamically a variable of type structure Line
     Line * line = (Line *) malloc(sizeof(Line)); //allocate a new line
-    line->p1 = p1; //fill the first argument of line
-    line->p2 = p2; //fill the second argument of line
+    line->p1 = p1;
+    line->p2 = p2;
     return line;
 }
 void delete_line(Line * line){
@@ -45,12 +45,11 @@ void print_line(Line * line){ //Display on the screen the coordinates of Line
 //Prototypes of functions on the structure Square
 
 Square* create_square(Point* point, int length){ //enter the coordinates of Point (pos_x, pos_y)
-    //line*l1=*create_line(Point*point, *create_point(point->pos_x, point->pos_y+length));
     Square *square = (Square*) malloc(sizeof(Square)); //allocate a new square (data needed to be stored is just the structure)
     square->length=length;
 
     /*Coordinates of the 4 points of the square
-    p1 = px, py
+    p1 = px, py (Top Left)
     p2 = px+length, py (TR)
     p3 = px, py+length (BL)
     p4 = px+length, py+length (BR) */
