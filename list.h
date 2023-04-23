@@ -12,7 +12,7 @@ typedef struct node{
 typedef NODE* LIST;
 
 NODE* create_node(Shape*);
-LIST add_tail_list(LIST, Shape*) ;
+LIST add_end_list(LIST, Shape*) ;
 void print_list(LIST);
 
 #endif
