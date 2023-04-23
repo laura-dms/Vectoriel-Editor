@@ -1,3 +1,6 @@
+/*Project Vector Text-based Editor, Laura Damas and Laura Poilane, L1 Int1
+File that contains the definitions of the functions about the structure shape*/
+
 #ifndef STRUCTURE_SHAPE_H
 #define STRUCTURE_SHAPE_H
 #include "shapes.h"
