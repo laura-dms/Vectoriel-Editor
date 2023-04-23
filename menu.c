@@ -1,3 +1,6 @@
+/*Project Vector Text-based Editor, Laura Damas and Laura Poilane, L1 Int1
+File that contains the definition of the function menu*/
+
 #include "menu.h"
 #include "Structure_shape.h"
 #include "list.h"
@@ -101,7 +104,7 @@ int menu(int * nb_shape, NODE** shapes){
         //print drawings
     }
     else if (!strcmp(choice, "delete")){
-        //delete the choosen shape (via id ?) -> free(shape)
+        //delete the chosen shape (via id ?) -> free(shape)
     }
     else if (!strcmp(choice, "help")){
         //print more commands (clear screen, change color (?))
