@@ -1,3 +1,6 @@
+/*Project Vector Text-based Editor, Laura Damas and Laura Poilane, L1 Int1
+File that contains the definitions of the functions about the list of nodes*/
+
 #ifndef LIST_H
 #define LIST_H
 #include <stdbool.h>
