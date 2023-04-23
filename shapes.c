@@ -1,3 +1,6 @@
+/*Project Vector Text-based Editor, Laura Damas and Laura Poilane, L1 Int1
+File that contains the prototypes of the functions about the structure shape*/
+
 #include "shapes.h"
 #include <stdlib.h>
 #include <stdio.h>
