@@ -9,7 +9,7 @@ NODE* create_node(Shape* val){
     return new_node;
 }
 
-LIST add_tail_list(LIST L, Shape* val){
+LIST add_end_list(LIST L, Shape* val){
     NODE* new = create_node(val);
     if (L == NULL){
         L = new;
