@@ -59,35 +59,12 @@ void delete_shape(Shape * shape){
 
 void print_shape(Shape * shape) //shp pointer as parameter : shp->ptrShape->p/l/s/r/c/poly
 {
-    printf("ID shape : %d\n", shape->id);
-    if (shape->shape_type==0) //or typeof(shape->shape_type)==line
-    {
-        //printf("\nShape type : Point");
-        print_point(shape->ptrShape);
-    }
-    else if (shape->shape_type==1)
-    {
-        //printf("\nShape type : Line");
-        print_line(shape->ptrShape);
-    }
-    else if (shape->shape_type==2)
-    {
-        //printf("\nShape type : Square");
-        print_square(shape->ptrShape);
-    }
-    else if (shape->shape_type==3)
-    {
-        //printf("\nShape type : Rectangle");
-        print_rectangle(shape->ptrShape);
-    }
-    else if (shape->shape_type==4)
-    {
-        //printf("\nShape type : Circle");
-        print_circle(shape->ptrShape);
-    }
-    else if (shape->shape_type==5)
-    {
-        //printf("\nShape type : Polygon");
-        print_polygon(shape->ptrShape);
+    switch(shape->shape_type){
+        case 0: print_point(shape->ptrShape);break;
+        case 1: print_line(shape->ptrShape);break;
+        case 2: print_square(shape->ptrShape);break;
+        case 3: print_rectangle(shape->ptrShape);break;
+        case 4: print_circle(shape->ptrShape);break;
+        case 5: print_polygon(shape->ptrShape);
     }
 }
