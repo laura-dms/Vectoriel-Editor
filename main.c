@@ -1,3 +1,6 @@
+/*Project Vector Text-based Editor, Laura Damas and Laura Poilane, L1 Int1
+File that contains the main code of the project*/
+
 #include <stdio.h>
 #include "menu.h"
 #include "list.h"
