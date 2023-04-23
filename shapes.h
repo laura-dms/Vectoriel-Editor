@@ -1,3 +1,6 @@
+/*Project Vector Text-based Editor, Laura Damas and Laura Poilane, L1 Int1
+File that contains the definitions of the functions' structures for the geometric shapes given*/
+
 #ifndef POINT_H //avoid error of multiples definitions of file
 #define POINT_H
 
