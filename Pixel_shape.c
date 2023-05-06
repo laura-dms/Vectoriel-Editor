@@ -10,8 +10,6 @@
 
 void pixel_point(Point * point, Pixel** pixel, int* nb_pixels) //use & in the call
 {
-    //Point* pt = create_point(10,15); ///OR with Shape*shape
-    //Pixel** pixel_tab = (Pixel**) malloc (sizeof (Pixel*)); //array of pixels
     pixel[0] = create_pixel(point->pos_x, point->pos_y); //create an array of pixels of 1 box
     *nb_pixels = 1;
 }
@@ -43,15 +41,18 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels)
 
     //int max_pixels = (dmax+1)*size_pixel + remaining;
 
-    //Calculate the number of pixels remaining and update the table of segments
+    //Calculate the number of pixels remaining (containing 0 or 1) and update the table of segments
     int* cumuls = (int *)malloc(nb_segs*sizeof(int));
     cumuls[0]=0;
 
     for (int i = 1; i < nb_segs;i++)
     {
-        cumuls[i] = ((i*remaining)%(dmin+1) < (i-1)*remaining)%(dmin+1);
+        cumuls[i] = ((i+1)*remaining)%(dmin+1) < (i*remaining)%(dmin+1);
         segments[i] = segments[i]+cumuls[i];
     }
+
+    //as we start the calculation from A, we remove 1 pixel to 1st segment
+    segments[0]= segments[0]-1;
 
     //Fill the array of structure pixel
     int pos_1_x = line->p1->pos_x;
@@ -125,13 +126,13 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels)
 
 void pixel_shape(Shape* shape, Pixel** pixel, int* nb_pixels)
 {
-    switch(shape->shape_type){ //problem : &* ??
-        case 0: pixel_point(shape->ptrShape,&*pixel, &*nb_pixels);break;
-        case 1: pixel_line(shape->ptrShape,&*pixel, &*nb_pixels );break;
-        case 2: pixel_square(shape->ptrShape, &*pixel, &*nb_pixels);break;
-        case 3: pixel_rectangle(shape->ptrShape, &*pixel, &*nb_pixels);break;
-        case 4: pixel_circle(shape->ptrShape, &*pixel, &*nb_pixels);break;
-        case 5: pixel_polygon(shape->ptrShape, &*pixel, &*nb_pixels);
+    switch(shape->shape_type){
+        case 0: pixel_point(shape->ptrShape,pixel, nb_pixels);break;
+        case 1: pixel_line(shape->ptrShape,pixel, nb_pixels );break;
+        case 2: pixel_square(shape->ptrShape, pixel, nb_pixels);break;
+        case 3: pixel_rectangle(shape->ptrShape, pixel, nb_pixels);break;
+        case 4: pixel_circle(shape->ptrShape, pixel, nb_pixels);break;
+        case 5: pixel_polygon(shape->ptrShape, pixel, nb_pixels);
     }
 }
 
@@ -201,37 +202,57 @@ void pixel_circle(Circle * circle, Pixel** pixel, int* nb_pixels)
     *nb_pixels=k; ////number of items
 }
 
-void pixel_square(Square* square, Pixel** pixel, int* nb_pixels) ////problem : passing by reference for pixel and nb_pixels
+void pixel_square(Square* square, Pixel** pixel, int* nb_pixels)
 {
     ////Above horizontal line
-    pixel_line(create_line(square->point1, create_point(square->point1->pos_x, square->point1->pos_y + square->length)), &*pixel, &*nb_pixels );
+    pixel_line(create_line(square->point1, create_point(square->point1->pos_x, square->point1->pos_y + square->length)), pixel, nb_pixels );
 
     ////Left vertical line
-    pixel_line(create_line(square->point1, create_point(square->point1->pos_x + square->length, square->point1->pos_y)), &*pixel ,&*nb_pixels);
+    pixel_line(create_line(square->point1, create_point(square->point1->pos_x + square->length, square->point1->pos_y)), pixel ,nb_pixels);
 
     ////Right vertical line
-    pixel_line(create_line(create_point(square->point1->pos_x, square->point1->pos_y + square->length), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), &*pixel, &*nb_pixels);
+    pixel_line(create_line(create_point(square->point1->pos_x, square->point1->pos_y + square->length), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), pixel, nb_pixels);
 
     ////Below horizontal line
-    pixel_line(create_line(create_point(square->point1->pos_x + square->length, square->point1->pos_y), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), &*pixel, &*nb_pixels);
+    pixel_line(create_line(create_point(square->point1->pos_x + square->length, square->point1->pos_y), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), pixel, nb_pixels);
 }
 
 void pixel_rectangle(Rectangle* rectangle, Pixel** pixel, int* nb_pixels)
 {
     ////Above horizontal line
-    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length)), &*pixel, &*nb_pixels );
+    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels );
 
     ////Left vertical line
-    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y)), &*pixel ,&*nb_pixels);
+    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y)), pixel ,nb_pixels);
 
     ////Right vertical line
-    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y )), &*pixel, &*nb_pixels);
+    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y )), pixel, nb_pixels);
 
     ////Below horizontal line
-    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y + rectangle->length)), &*pixel, &*nb_pixels);
+    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels);
 }
 
 void pixel_polygon(Polygon* polygon, Pixel** pixel, int* nb_pixels)
 {
+    for (int i=0; i<polygon->n; i++) ////run through the list of points of polygon
+    {
+        pixel_line(create_line(polygon->points[i], polygon->points[i+1]), pixel, nb_pixels );
+    }
+}
 
+Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels) ////transform any shape into a set of pixels
+{
+    switch(shape->shape_type){
+        case 0: pixel_point(shape->ptrShape);break;
+        case 1: pixel_line(shape->ptrShape);break;
+        case 2: pixel_square(shape->ptrShape);break;
+        case 3: pixel_rectangle(shape->ptrShape);break;
+        case 4: pixel_circle(shape->ptrShape);break;
+        case 5: pixel_polygon(shape->ptrShape);break;
+    }
+}
+
+void delete_pixel_shape(Pixel** pixel, int nb_pixels) ////free the memory of the allocated pixels
+{
+    free(pixel);
 }
