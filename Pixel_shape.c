@@ -242,17 +242,16 @@ void pixel_polygon(Polygon* polygon, Pixel** pixel, int* nb_pixels)
 
 Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels) ////transform any shape into a set of pixels
 {
-    switch(shape->shape_type){
-        case 0: pixel_point(shape->ptrShape);break;
-        case 1: pixel_line(shape->ptrShape);break;
-        case 2: pixel_square(shape->ptrShape);break;
-        case 3: pixel_rectangle(shape->ptrShape);break;
-        case 4: pixel_circle(shape->ptrShape);break;
-        case 5: pixel_polygon(shape->ptrShape);break;
-    }
+    Pixel ** set_pixels = (Pixel**)malloc(*nb_pixels*sizeof(Pixel*)); ////initialise an array of structure pixel
+
+    pixel_shape(shape, set_pixels, nb_pixels); ////fill the array with the function pixel_shape
+
+    return set_pixels; ////must returns an array of pixels
 }
 
 void delete_pixel_shape(Pixel** pixel, int nb_pixels) ////free the memory of the allocated pixels
 {
-    free(pixel);
+    for (int i=0; i<nb_pixels; i++) {
+        free(pixel[i]);
+    }
 }
