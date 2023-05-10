@@ -8,43 +8,35 @@
 #define MAX_PIXELS 100
 #include <stdio.h>
 
-void pixel_point(Point * point, Pixel** pixel, int* nb_pixels) //use & in the call
-{
-    pixel[0] = create_pixel(point->pos_x, point->pos_y); //create an array of pixels of 1 box
+void pixel_point(Point * point, Pixel** pixel, int* nb_pixels){
+    pixel = (Pixel**) malloc (sizeof (Pixel*));
+    pixel[0] = create_pixel(point->pos_x, point->pos_y);
     *nb_pixels = 1;
 }
 
-void pixel_line(Line* line, Pixel** pixel, int* nb_pixels)
-{
+void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
     int dx, dy, dmin, dmax;
+    ///Ajouter ici (ou dans la fct qui store la line) que le le x de p1 < x de p2 (switch si besoin)
     dx=line->p2->pos_x - line->p1->pos_x; //distance in the x axis to reach the 2nd point of the line
-    dy=line->p1->pos_y - line->p1->pos_y; //distance in the y axis to reach the 2nd point of the line
-
-    dmin=min(dx, abs(dy)); //distance minimum
-    dmax=max(dx, abs(dy)); //distance maximum
+    dy=line->p2->pos_y - line->p1->pos_y; //distance in the y axis to reach the 2nd point of the line
+    dmin=min(dx, abs(dy)); //smallest difference between coordinates
+    dmax=max(dx, abs(dy)); //largest difference between coordinates
 
     int nb_segs= dmin+1; //number of segments in the line
-
     int size_pixel=(dmax+1)/(dmin+1); //size of basic segment
-
-    int* segments = (int*) malloc(nb_segs*sizeof (int)); //array which contains the size of each pixel
-
-    for (int i=0; i<nb_segs; i++) //array of segments that contains the size of each segment
-    {
+    int* segments = (int*) malloc(nb_segs*sizeof (int)); //array of segments
+    for (int i=0; i<nb_segs; i++){
         segments[i]=size_pixel;
     }
 
     //Distribute the missing pixels on the segments
     int remaining = (dmax+1)%(dmin+1);
     *nb_pixels=(dmin+1)*size_pixel+remaining; //total numbers of pixels to create the line
-    //operation : number of segments * size of 1 pixel + remaining pixels
-
-    //int max_pixels = (dmax+1)*size_pixel + remaining;
+    //operation : number of segments * size of a basic segment + remaining pixels
 
     //Calculate the number of pixels remaining (containing 0 or 1) and update the table of segments
     int* cumuls = (int *)malloc(nb_segs*sizeof(int));
     cumuls[0]=0;
-
     for (int i = 1; i < nb_segs;i++)
     {
         cumuls[i] = ((i+1)*remaining)%(dmin+1) < (i*remaining)%(dmin+1);
@@ -58,7 +50,7 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels)
     int pos_1_x = line->p1->pos_x;
     int pos_1_y = line->p1->pos_y;
 
-    pixel_point(line->p1, &*pixel, &*nb_pixels); ////add to the array of pixels the starting point of the line
+    pixel_point(line->p1, pixel, nb_pixels); //add to the array of pixels the starting point of the line
 
     int pixel_index = 1; // initialize the index of the pixel array
 
@@ -67,52 +59,35 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels)
         for (int j=0; j<segments[i]; j++) //array of segments size
         {
 
-            //// check if the pixel array is full
+            /*//// check if the pixel array is full
             if (pixel_index >= MAX_PIXELS)
             {
                 //// handle the error
                 printf("Error: the pixel array is full\n");
                 break; ////exit(1) = exit the program
-            }
+            }*/
 
-            if (dy<0) ////trace down : inverse direction
-            {
-                if (dx>abs(dy)) ////segments are horizontal
-                {
-                    if (segments[i]==1) ////if there is only one segment
-                    {
-                        pixel[pixel_index]=create_pixel(pos_1_x,pos_1_y); //// fill the coordinates of the structure pixel
-                                                                                 //// and associate the structure pixel to a box of the array
-                        dy--;
-                        pos_1_x++; ////increase the x position
-                        break; ////exit
-                    }
-                    else
-                    {
-                        pixel[pixel_index]=create_pixel(pos_1_x,pos_1_y);
-                        dy--;
-                        pos_1_x++;
-                    }
+            if (dy<0){ ////trace down : inverse direction
+                if (dx>abs(dy)){ ////segments are horizontal
+                    pixel[pixel_index]=create_pixel(pos_1_x,pos_1_y);
+                    dy--;
+                    pos_1_x++;
                 }
-                else
-                {
+                else{
                     ////the segments are vertical
                     pixel[pixel_index]=create_pixel(dx,abs(dy));
                     dx--;
                     pos_1_y--;
                 }
             }
-            else ////trace up
-            {
-                if (dx>dy)
-                {
+            else{ ////trace up
+                if (dx>dy){
                     ////segments are horizontal
                     pixel[pixel_index]=create_pixel(dx,dy);
                     dy++;
                     pos_1_x++;
                 }
-                else
-                {
+                else{
                     ////segments are vertical
                     pixel[pixel_index]=create_pixel(dx,dy);
                     dx++;
@@ -124,27 +99,14 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels)
     }
 }
 
-void pixel_shape(Shape* shape, Pixel** pixel, int* nb_pixels)
-{
-    switch(shape->shape_type){
-        case 0: pixel_point(shape->ptrShape,pixel, nb_pixels);break;
-        case 1: pixel_line(shape->ptrShape,pixel, nb_pixels );break;
-        case 2: pixel_square(shape->ptrShape, pixel, nb_pixels);break;
-        case 3: pixel_rectangle(shape->ptrShape, pixel, nb_pixels);break;
-        case 4: pixel_circle(shape->ptrShape, pixel, nb_pixels);break;
-        case 5: pixel_polygon(shape->ptrShape, pixel, nb_pixels);
-    }
-}
 
-void pixel_circle(Circle * circle, Pixel** pixel, int* nb_pixels)
-{
+void pixel_circle(Circle * circle, Pixel** pixel, int* nb_pixels){
     //// POINT GENERATION ////
     int x=0, y=circle->radius,d=circle->radius-1;
     int k=0; //number of items in the array of pixels
     Pixel * px = NULL;
 
-    while (y>=x)
-    {
+    while (y>=x){
         //// ***DRAW EIGHT SYMMETRICAL POINTS***////
 
         /// Add the point to the first octant : Point1 (p_x + x, p_y + y)
@@ -180,10 +142,9 @@ void pixel_circle(Circle * circle, Pixel** pixel, int* nb_pixels)
         pixel[k++]= px;
 
         if (d<2*x) ////the plot error delta is negative
-        //// error /!\ : marquer >= sur le pdf ////
         {
-            d+= 2*x+1; ////error : written add but -= in the pseudo-code
             x++;
+            d+= 2*x+1; ////error : written add but -= in the pseudo-code
         }
         else if (d>=(2*(circle->radius - y))) ////the plot error delta is positive
         {
@@ -191,8 +152,7 @@ void pixel_circle(Circle * circle, Pixel** pixel, int* nb_pixels)
             y--;
             x++;
         }
-        else
-        {
+        else{
             d+=2*(y-x-1);
             y--;
             x++;
@@ -204,16 +164,16 @@ void pixel_circle(Circle * circle, Pixel** pixel, int* nb_pixels)
 
 void pixel_square(Square* square, Pixel** pixel, int* nb_pixels)
 {
-    ////Above horizontal line
+    ////Top line
     pixel_line(create_line(square->point1, create_point(square->point1->pos_x, square->point1->pos_y + square->length)), pixel, nb_pixels );
 
-    ////Left vertical line
+    ////Left line
     pixel_line(create_line(square->point1, create_point(square->point1->pos_x + square->length, square->point1->pos_y)), pixel ,nb_pixels);
 
-    ////Right vertical line
+    ////Right line
     pixel_line(create_line(create_point(square->point1->pos_x, square->point1->pos_y + square->length), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), pixel, nb_pixels);
 
-    ////Below horizontal line
+    ////Bottom line
     pixel_line(create_line(create_point(square->point1->pos_x + square->length, square->point1->pos_y), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), pixel, nb_pixels);
 }
 
@@ -240,18 +200,27 @@ void pixel_polygon(Polygon* polygon, Pixel** pixel, int* nb_pixels)
     }
 }
 
+void pixel_shape(Shape* shape, Pixel** pixel, int* nb_pixels){
+    switch(shape->shape_type){
+        case 0: pixel_point(shape->ptrShape,pixel, nb_pixels);break;
+        case 1: pixel_line(shape->ptrShape,pixel, nb_pixels );break;
+        case 2: pixel_square(shape->ptrShape, pixel, nb_pixels);break;
+        case 3: pixel_rectangle(shape->ptrShape, pixel, nb_pixels);break;
+        case 4: pixel_circle(shape->ptrShape, pixel, nb_pixels);break;
+        case 5: pixel_polygon(shape->ptrShape, pixel, nb_pixels);break;
+    }
+}
+
 Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels) ////transform any shape into a set of pixels
 {
     Pixel ** set_pixels = (Pixel**)malloc(*nb_pixels*sizeof(Pixel*)); ////initialise an array of structure pixel
-
     pixel_shape(shape, set_pixels, nb_pixels); ////fill the array with the function pixel_shape
-
     return set_pixels; ////must returns an array of pixels
 }
 
-void delete_pixel_shape(Pixel** pixel, int nb_pixels) ////free the memory of the allocated pixels
+void delete_pixel_shape(Pixel** pixel, int* nb_pixels) ////free the memory of the allocated pixels
 {
-    for (int i=0; i<nb_pixels; i++) {
+    for (int i=0; i<*nb_pixels; i++) {
         free(pixel[i]);
     }
 }
