@@ -17,7 +17,7 @@ typedef struct area Area;
 
 //Prototypes of the functions about the structure area
 
-Area* create_area(unsigned int width, unsigned int height);
+Area* create_area(unsigned int height, unsigned int width);
 void add_shape_to_area(Area* area, Shape* shape);
 void clear_area(Area* area);
 void erase_area(Area* area);
