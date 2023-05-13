@@ -7,13 +7,13 @@
 #include "shapes.h"
 
 //Functions about the structure area//
-Area* create_area(unsigned int width, unsigned int height){
+Area* create_area(unsigned int height, unsigned int width){//✅
     Area * area = (Area*)malloc(sizeof(Area));
     area->width = width;
     area->height = height;
-    area->mat = (BOOL**) malloc(height*sizeof(BOOL));
+    area->mat = (BOOL**) malloc(height*sizeof(BOOL*));
     for (int i = 0; i < height; i++){
-        area->mat[i] = malloc(width*sizeof(BOOL));
+        area->mat[i] = (BOOL*)malloc(width*sizeof(BOOL));
     }
     NODE* list_shapes = NULL;
     area->shapes=list_shapes;
@@ -27,7 +27,7 @@ void add_shape_to_area(Area* area, Shape* shape){ //✅ insert the shape given i
     area->nb_shape+=1;
 }
 
-void clear_area(Area* area){ //❌ initialize all the pixels to 0
+void clear_area(Area* area){ //✅
     int i,j;
     for (i=0; i<area->height; i++){
         for (j=0; j<area->width; j++){
@@ -46,20 +46,21 @@ void delete_area(Area* area){ //delete the area
     free(area);
 }
 
-void draw_area(Area* area){ //❌
+void draw_area(Area* area){ //⚠️
     ////check if there is enough space in the area to store the shape ???
     int nb_pix = 0;
     NODE* tmp = area->shapes;
-    while (tmp->succ!= NULL){
+    while (tmp != NULL){
         Pixel**List_Pixels=create_shape_to_pixel(tmp->value, &nb_pix);
         for (int j=0; j<nb_pix; j++){
-            area->mat[List_Pixels[j]->px][List_Pixels[j]->py]=0;
+            area->mat[List_Pixels[j]->px-1][List_Pixels[j]->py-1]=1;
         }
+        delete_pixel_shape(&List_Pixels, &nb_pix);
         tmp = tmp->succ;
     }
 }
 
-void print_area(Area* area){ //draw the 2D matrix with the shapes in the console ⚠️
+void print_area(Area* area){ //draw the 2D matrix with the shapes in the console ✅
     printf("\n");
     for (int i = 0; i < area->height; i++){
         for (int j = 0; j < area->width; j++){
