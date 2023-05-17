@@ -21,6 +21,7 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
 
     int nb_segs= dmin+1; //number of segments in the line
     int size_pixel=(dmax+1)/(dmin+1); //size of basic segment
+    //printf("nb seg=%d sizepix = %d", nb_segs,size_pixel);
     int* segments = (int*) malloc(nb_segs*sizeof (int)); //array of segments
     for (int i=0; i<nb_segs; i++){
         segments[i]=size_pixel;
@@ -28,67 +29,66 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
 
     //Distribute the missing pixels on the segments
     int remaining = (dmax+1)%(dmin+1);
-    *nb_pixels=(dmin+1)*size_pixel+remaining; //total numbers of pixels to create the line
-    //operation : number of segments * size of a basic segment + remaining pixels
+    *nb_pixels=(dmin+1)*size_pixel+remaining; //total numbers of pixels of the line
 
     //Calculate the number of pixels remaining (containing 0 or 1) and update the table of segments
     int* cumuls = (int *)malloc(nb_segs*sizeof(int));
     cumuls[0]=0;
-    for (int i = 1; i < nb_segs;i++)
-    {
+    for (int i = 1; i < nb_segs;i++){
         cumuls[i] = ((i+1)*remaining)%(dmin+1) < (i*remaining)%(dmin+1);
         segments[i] = segments[i]+cumuls[i];
     }
 
-    //as we start the calculation from A, we remove 1 pixel to 1st segment
-    segments[0]= segments[0]-1;
+    for(int i = 0; i < nb_segs; i++){
+        printf("Seg: %d ", segments[i]);
+    }
 
-    //Fill the array of structure pixel
-    int pos_1_x = line->p1->pos_x;
-    int pos_1_y = line->p1->pos_y;
+    //Variables of point positions x and y
+    int x_pos = line->p1->pos_x;
+    int y_pos = line->p1->pos_y;
 
-    pixel_point(line->p1, pixel, nb_pixels); //add to the array of pixels the starting point of the line
-
-    int pixel_index = 1; // initialize the index of the pixel array
+    int pix_ind = 0; // initialize the index of the pixel array
 
     for (int i=0; i<nb_segs; i++){
-        for (int j=0; j<segments[i]; j++){ //array of segments size{
-            /*//// check if the pixel array is full
-            if (pixel_index >= MAX_PIXELS)
-            {
-                //// handle the error
-                printf("Error: the pixel array is full\n");
-                break; ////exit(1) = exit the program
-            }*/
-
+        //printf("\ni:%d", i);
+        for (int j=0; j<segments[i]; j++){
+            //printf("\nj:%d", j);
             if (dx >= 0){ ////trace down
-                if (dy > dx){ ////segments are horizontal
-                    *pixel[pixel_index] = create_pixel(pos_1_x, pos_1_y);
-                    dx--;
-                    pos_1_y++;
+                if (dy >= dx){ ////segments are horizontal
+                    printf("\nx:%d y:%d ind:%d", x_pos, y_pos, pix_ind);
+                    *pixel[pix_ind] = create_pixel(x_pos, y_pos);
+                    y_pos++;
                 }
-                else{
-                    ////the segments are vertical
-                    *pixel[pixel_index] = create_pixel(dy, abs(dx));
-                    dy--;
-                    pos_1_x--;
+                else{ ////segments are vertical
+                    printf("\nx:%d y:%d", x_pos, y_pos);
+                    *pixel[pix_ind] = create_pixel(x_pos, y_pos);
+                    x_pos++;
                 }
             }
             else{ ////trace up
-                if (dy > abs(dx)){
-                    ////segments are horizontal
-                    *pixel[pixel_index] = create_pixel(dx, dy);
-                    dy++;
-                    pos_1_x--;
+                if (dy >= abs(dx)){////segments are horizontal
+                    printf("\nx:%d y:%d", x_pos, y_pos);
+                    *pixel[pix_ind] = create_pixel(x_pos, y_pos);
+                    y_pos++;
                 }
-                else{
-                    ////segments are vertical
-                    *pixel[pixel_index] = create_pixel(dx, dy);
-                    dx--;
-                    pos_1_y++;
+                else{////segments are vertical
+                    printf("\nx:%d y:%d", x_pos, y_pos);
+                    *pixel[pix_ind] = create_pixel(x_pos, y_pos);
+                    x_pos--;
                 }
             }
-            pixel_index++;
+            pix_ind++;
+        }
+        if(dy >= abs(dx)){ ///vertical seg
+            if(dx >=0){
+                x_pos++;
+            }
+            else{
+                x_pos--;
+            }
+        }
+        else{ ///horizontal seg
+            y_pos++;
         }
     }
 }
@@ -103,48 +103,53 @@ void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){
     while (y>=x){
         //// ***DRAW EIGHT SYMMETRICAL POINTS***////
 
-        /// Add the point to the first octant : Point1 (p_x + x, p_y + y)
+        /// Add the point to the first octant
         px=create_pixel(circle->center->pos_x + x, circle->center->pos_y + y);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x + x, circle->center->pos_y + y);
         *pixel[k++]= px;
 
-        //// Add the point for the octant opposite : Point2 (p_x + y, p_y + x)
+        //// Add the point for the octant opposite
         px=create_pixel(circle->center->pos_x + y, circle->center->pos_y + x);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x + y, circle->center->pos_y + x);
         *pixel[k++]= px;
 
-        ////Add the point to the 2nd octant : Point3 (p_x - x, p_y + y)
+        ////Add the point to the 2nd octant
         px=create_pixel(circle->center->pos_x - x, circle->center->pos_y + y);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x -x, circle->center->pos_y + y);
         *pixel[k++]= px;
 
-        ////Add the point to the octant opposite : Point4 (p_x - y, p_y + x)
+        ////Add the point to the octant opposite
         px=create_pixel(circle->center->pos_x - y, circle->center->pos_y + x);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x - y, circle->center->pos_y + x);
         *pixel[k++]= px;
 
-        ////Add the point to the octant opposite : Point5 (p_x + x, p_y - y)
+        ////Add the point to the octant opposite
         px=create_pixel(circle->center->pos_x + x, circle->center->pos_y - y);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x + x, circle->center->pos_y -y);
         *pixel[k++]= px;
 
-        ////Add the point to the octant opposite : Point6 (p_x + y, p_y - x)
+        ////Add the point to the octant opposite
         px=create_pixel(circle->center->pos_x + y, circle->center->pos_y - x);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x + y, circle->center->pos_y - x);
         *pixel[k++]= px;
 
-        ////Add the point to the octant opposite : Point7 (p_x - x, p_y - y)
+        ////Add the point to the octant opposite
         px=create_pixel(circle->center->pos_x - x, circle->center->pos_y - y);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x -x, circle->center->pos_y -y);
         *pixel[k++]= px;
 
-        ////Add the point to the octant opposite : Point8 (p_x - y, p_y - x)
+        ////Add the point to the octant opposite
         px=create_pixel(circle->center->pos_x - y, circle->center->pos_y - x);
+        printf("\nk:%d x:%d y:%d", k, circle->center->pos_x - y, circle->center->pos_y - x);
         *pixel[k++]= px;
 
-        if (d<2*x) ////the plot error delta is negative
-        {
+        if (d>=2*x){ 
+            d-= 2*x+1;
             x++;
-            d+= 2*x+1; ////error : written add but -= in the pseudo-code
         }
-        else if (d>=(2*(circle->radius - y))) ////the plot error delta is positive
-        {
+        else if (d<(2*(circle->radius - y))){ 
             d+=2*y-1;
             y--;
-            x++;
         }
         else{
             d+=2*(y-x-1);
@@ -152,9 +157,9 @@ void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){
             x++;
         }
     }
-    ////When x becomes greater than y, it means that all the points of the circle have been added to the array of pixels.
     *nb_pixels=k; ////number of items
 }
+
 
 void pixel_square(Square* square, Pixel*** pixel, int* nb_pixels){
     ////Top line
