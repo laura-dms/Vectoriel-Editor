@@ -28,7 +28,6 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){ //✅
 
     //Distribute the missing pixels on the segments
     int remaining = (dmax+1)%(dmin+1);
-    *nb_pixels=(dmin+1)*size_pixel+remaining; //total numbers of pixels of the line
 
     //Calculate the number of pixels remaining (containing 0 or 1) and update the table of segments
     int* cumuls = (int *)malloc(nb_segs*sizeof(int));
@@ -42,35 +41,34 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){ //✅
     int x_pos = line->p1->pos_x;
     int y_pos = line->p1->pos_y;
 
-    int pix_ind = 0; // initialize the index of the pixel array
+    //int pix_ind = 0; // initialize the index of the pixel array
 
     for (int i=0; i<nb_segs; i++){
         for (int j=0; j<segments[i]; j++){
             if (dx >= 0){ ////trace down
                 if (dy >= dx){ ////segments are horizontal
-                    (*pixel)[pix_ind] = create_pixel(x_pos, y_pos);
+                    (*pixel)[(*nb_pixels)++] = create_pixel(x_pos, y_pos);
                     //printf("x:%d y:%d", x_pos, y_pos);
                     y_pos++;
                 }
                 else{ ////segments are vertical
-                    (*pixel)[pix_ind] = create_pixel(x_pos, y_pos);
+                    (*pixel)[(*nb_pixels)++] = create_pixel(x_pos, y_pos);
                     //printf("x:%d y:%d", x_pos, y_pos);
                     x_pos++;
                 }
             }
             else{ ////trace up
                 if (dy >= abs(dx)){////segments are horizontal
-                    (*pixel)[pix_ind] = create_pixel(x_pos, y_pos);
+                    (*pixel)[(*nb_pixels)++] = create_pixel(x_pos, y_pos);
                     //printf("x:%d y:%d", x_pos, y_pos);
                     y_pos++;
                 }
                 else{////segments are vertical
-                    (*pixel)[pix_ind] = create_pixel(x_pos, y_pos);
+                    (*pixel)[(*nb_pixels)++] = create_pixel(x_pos, y_pos);
                     //printf("x:%d y:%d", x_pos, y_pos);
                     x_pos--;
                 }
             }
-            pix_ind++;
         }
         if(dy >= abs(dx)){ ///vertical seg
             if(dx >=0){
@@ -87,7 +85,6 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){ //✅
     free(segments);
     free(cumuls);
 }
-
 
 void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){ //✅
     //// POINT GENERATION ////
@@ -148,7 +145,7 @@ void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){ //✅
     *nb_pixels=k;
 }
 
-void pixel_square(Square* square, Pixel*** pixel, int* nb_pixels){ //❌
+void pixel_square(Square* square, Pixel*** pixel, int* nb_pixels){ //✅
     ////Top line
     pixel_line(create_line(square->point1, create_point(square->point1->pos_x, square->point1->pos_y + square->length)), pixel, nb_pixels);
 
@@ -162,15 +159,15 @@ void pixel_square(Square* square, Pixel*** pixel, int* nb_pixels){ //❌
     pixel_line(create_line(create_point(square->point1->pos_x + square->length, square->point1->pos_y), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), pixel, nb_pixels);
 }
 
-void pixel_rectangle(Rectangle* rectangle, Pixel*** pixel, int* nb_pixels){ //❌
+void pixel_rectangle(Rectangle* rectangle, Pixel*** pixel, int* nb_pixels){ //✅
     ////Above horizontal line
-    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels );
+    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels);
 
     ////Left vertical line
     pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y)), pixel ,nb_pixels);
 
     ////Right vertical line
-    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y )), pixel, nb_pixels);
+    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels);
 
     ////Below horizontal line
     pixel_line(create_line(create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels);
@@ -179,8 +176,9 @@ void pixel_rectangle(Rectangle* rectangle, Pixel*** pixel, int* nb_pixels){ //�
 void pixel_polygon(Polygon* polygon, Pixel*** pixel, int* nb_pixels){ //❌
     for (int i=0; i<polygon->n; i++) ////run through the list of points of polygon
     {
-        pixel_line(create_line(polygon->points[i], polygon->points[i+1]), pixel, nb_pixels );
+        pixel_line(create_line(polygon->points[i], polygon->points[i+1]), pixel, nb_pixels);
     }
+    pixel_line(create_line(polygon->points[0], polygon->points[-1]), pixel, nb_pixels);
 }
 
 void pixel_shape(Shape* shape, Pixel*** pixel, int* nb_pixels){ //✅
