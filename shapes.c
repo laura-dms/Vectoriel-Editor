@@ -58,8 +58,7 @@ Square* create_square(Point* point, int length){ //enter the coordinates of Poin
     p4 = px+length, py+length (BR) */
 
     //Point 1
-    square->point1->pos_x=point->pos_x;
-    square->point1->pos_y=point->pos_y;
+    square->point1=point;
 
     return square;
 }
@@ -71,9 +70,6 @@ void delete_square(Square * square){
 
 void print_square(Square * square){
     printf("\nSQUARE %d %d %d", square->point1->pos_x, square->point1->pos_y, square->length); //p1 pos_x,p1 pos_y, length
-    /*printf(" %d %d |", square->point1->pos_x + square->length, square->point1->pos_y);
-    printf(" %d %d |", square->point1->pos_x, square->point1->pos_y - square->length);
-    printf(" %d %d", square->point1->pos_x + square->length, square->point1->pos_y - square->length);*/
 }
 
 
@@ -87,8 +83,7 @@ Rectangle *create_rectangle(Point * point, int width, int height) {
     rectangle->width = height;
 
     //Point 1
-    rectangle->initialpoint->pos_x = point->pos_x;
-    rectangle->initialpoint->pos_y = point->pos_y;
+    rectangle->initialpoint = point;
 
     return rectangle;
 }
