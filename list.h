@@ -11,11 +11,10 @@ typedef struct node{
     struct node *succ;
 }NODE;
 
-/*-Definition of type LIST-*/
 typedef NODE* LIST;
 
 NODE* create_node(Shape*);
-LIST add_end_list(LIST, Shape*) ;
+LIST add_to_list(LIST, Shape*) ;
 void print_list(LIST);
 
 #endif
