@@ -147,30 +147,30 @@ void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){ //✅
 
 void pixel_square(Square* square, Pixel*** pixel, int* nb_pixels){ //✅
     ////Top line
-    pixel_line(create_line(square->point1, create_point(square->point1->pos_x, square->point1->pos_y + square->length)), pixel, nb_pixels);
+    pixel_line(create_line(square->point1, create_point(square->point1->pos_x, square->point1->pos_y + square->length-1)), pixel, nb_pixels);
 
     ////Left line
-    pixel_line(create_line(square->point1, create_point(square->point1->pos_x + square->length, square->point1->pos_y)), pixel ,nb_pixels);
+    pixel_line(create_line(square->point1, create_point(square->point1->pos_x + square->length-1, square->point1->pos_y)), pixel ,nb_pixels);
 
     ////Right line
-    pixel_line(create_line(create_point(square->point1->pos_x, square->point1->pos_y + square->length), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), pixel, nb_pixels);
+    pixel_line(create_line(create_point(square->point1->pos_x, square->point1->pos_y + square->length-1), create_point(square->point1->pos_x + square->length-1, square->point1->pos_y + square->length-1)), pixel, nb_pixels);
 
     ////Bottom line
-    pixel_line(create_line(create_point(square->point1->pos_x + square->length, square->point1->pos_y), create_point(square->point1->pos_x + square->length, square->point1->pos_y + square->length)), pixel, nb_pixels);
+    pixel_line(create_line(create_point(square->point1->pos_x + square->length-1, square->point1->pos_y), create_point(square->point1->pos_x + square->length-1, square->point1->pos_y + square->length-1)), pixel, nb_pixels);
 }
 
 void pixel_rectangle(Rectangle* rectangle, Pixel*** pixel, int* nb_pixels){ //✅
     ////Above horizontal line
-    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels);
+    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length-1)), pixel, nb_pixels);
 
     ////Left vertical line
-    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y)), pixel ,nb_pixels);
+    pixel_line(create_line(rectangle->initialpoint, create_point(rectangle->initialpoint->pos_x + rectangle->width-1, rectangle->initialpoint->pos_y)), pixel ,nb_pixels);
 
     ////Right vertical line
-    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels);
+    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x, rectangle->initialpoint->pos_y + rectangle->length-1), create_point(rectangle->initialpoint->pos_x + rectangle->width-1, rectangle->initialpoint->pos_y + rectangle->length-1)), pixel, nb_pixels);
 
     ////Below horizontal line
-    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y), create_point(rectangle->initialpoint->pos_x + rectangle->width, rectangle->initialpoint->pos_y + rectangle->length)), pixel, nb_pixels);
+    pixel_line(create_line(create_point(rectangle->initialpoint->pos_x + rectangle->width-1, rectangle->initialpoint->pos_y), create_point(rectangle->initialpoint->pos_x + rectangle->width-1, rectangle->initialpoint->pos_y + rectangle->length-1)), pixel, nb_pixels);
 }
 
 void pixel_polygon(Polygon* polygon, Pixel*** pixel, int* nb_pixels){ //❌
