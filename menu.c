@@ -24,7 +24,7 @@ int menu(int * nb_shape, NODE** shapes){
         printf("Enter the coordinates of the point ('x y'): \n");
         scanf("%d %d", &x1, &y1);
         p = create_point_shape(x1, y1);
-        *shapes = add_end_list(*shapes, p); //add the shape and its coordinates in the SLL
+        *shapes = add_to_list(*shapes, p); //add the shape and its coordinates in the SLL
         *nb_shape += 1; //increment the nb of shape
         printf("\nThe shape has been correctly added !\n");
         delete_shape(p); //dynamically delete the pointer to the shape
@@ -36,7 +36,7 @@ int menu(int * nb_shape, NODE** shapes){
         printf("Enter the coordinates of the 2 points of the line ('x1 y1, x2 y2'): \n");
         scanf("%d %d, %d %d", &x1, &y1, &x2, &y2);
         l = create_line_shape(x1, y1, x2, y2);
-        *shapes = add_end_list(*shapes, l);
+        *shapes = add_to_list(*shapes, l);
         *nb_shape += 1;
         printf("\nThe shape has been correctly added !\n");
         delete_shape(l);
@@ -48,7 +48,7 @@ int menu(int * nb_shape, NODE** shapes){
         printf("Enter the coordinates of the upper left point and the size of the square ('x y size'): \n");
         scanf("%d %d %d", &x1, &y1, &width);
         s = create_square_shape(x1, y1, width);
-        *shapes = add_end_list(*shapes, s);
+        *shapes = add_to_list(*shapes, s);
         *nb_shape += 1;
         printf("\nThe shape has been correctly added !\n");
         delete_shape(s);
@@ -60,7 +60,7 @@ int menu(int * nb_shape, NODE** shapes){
         printf("Enter the coordinates of the upper left point, the width and the height of the rectangle ('x y width height'): \n");
         scanf("%d %d %d %d", &x1, &y1, &width, &height);
         r = create_rectangle_shape(x1, y1, width, height);
-        *shapes = add_end_list(*shapes, r);
+        *shapes = add_to_list(*shapes, r);
         *nb_shape += 1;
         printf("\nThe shape has been correctly added !\n");
         delete_shape(r);
@@ -72,7 +72,7 @@ int menu(int * nb_shape, NODE** shapes){
         printf("Enter the coordinates of the center of the circle, and its radius ('x y radius'): \n");
         scanf("%d %d %d", &x1, &y1, &width);
         c = create_circle_shape(x1, y1, width);
-        *shapes = add_end_list(*shapes, c);
+        *shapes = add_to_list(*shapes, c);
         *nb_shape += 1;
         printf("\nThe shape has been correctly added !\n");
         delete_shape(c);
@@ -84,7 +84,7 @@ int menu(int * nb_shape, NODE** shapes){
         printf("Enter the number of points of your polygon : ");
         scanf("%d", &width);
         poly = create_polygon_shape(width);
-        *shapes = add_end_list(*shapes, poly);
+        *shapes = add_to_list(*shapes, poly);
         *nb_shape += 1;
         printf("\nThe shape has been correctly added !\n");
         delete_shape(poly);
@@ -104,7 +104,7 @@ int menu(int * nb_shape, NODE** shapes){
         //print drawings
     }
     else if (!strcmp(choice, "delete")){
-        //delete the chosen shape (via id ?) -> free(shape)
+        //delete the choosen shape (via id ?) -> free(shape)
     }
     else if (!strcmp(choice, "help")){
         //print more commands (clear screen, change color (?))
