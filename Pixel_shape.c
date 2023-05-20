@@ -173,12 +173,11 @@ void pixel_rectangle(Rectangle* rectangle, Pixel*** pixel, int* nb_pixels){ //�
     pixel_line(create_line(create_point(rectangle->initialpoint->pos_x + rectangle->width-1, rectangle->initialpoint->pos_y), create_point(rectangle->initialpoint->pos_x + rectangle->width-1, rectangle->initialpoint->pos_y + rectangle->length-1)), pixel, nb_pixels);
 }
 
-void pixel_polygon(Polygon* polygon, Pixel*** pixel, int* nb_pixels){ //❌
-    for (int i=0; i<polygon->n; i++) ////run through the list of points of polygon
-    {
+void pixel_polygon(Polygon* polygon, Pixel*** pixel, int* nb_pixels){ //✅
+    for (int i=0; i<polygon->n-1; i++){ ////run through the list of points of polygon
         pixel_line(create_line(polygon->points[i], polygon->points[i+1]), pixel, nb_pixels);
     }
-    pixel_line(create_line(polygon->points[0], polygon->points[-1]), pixel, nb_pixels);
+    pixel_line(create_line(polygon->points[0], polygon->points[(polygon->n)-1]), pixel, nb_pixels);
 }
 
 void pixel_shape(Shape* shape, Pixel*** pixel, int* nb_pixels){ //✅
