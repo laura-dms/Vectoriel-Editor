@@ -31,10 +31,17 @@ void print_point(Point * p){ //Display on the screen the coordinates of Point
 
 Line *create_line(Point * p1, Point * p2){ //Allocate dynamically a variable of type structure Line
     Line * line = (Line *) malloc(sizeof(Line)); //allocate a new line
-    line->p1 = p1;
-    line->p2 = p2;
+    if(p1->pos_y >= p2->pos_y){
+        line->p1 = p2;
+        line->p2 = p1;
+    }
+    else{
+        line->p1 = p1;
+        line->p2 = p2;
+    }
     return line;
 }
+
 void delete_line(Line * line){
     free(line); //Free the allocated memory the line
 }
