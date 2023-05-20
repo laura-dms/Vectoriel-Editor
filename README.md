@@ -2,7 +2,7 @@
 
 Tâches à faire : ⚡
 - revoir fonctions area.c
-- function pixel_circle : erreurs/diff entre pdf et énoncé
+- afficher le polygone
 
 Reste à faire : 👈
 
