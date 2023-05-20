@@ -45,14 +45,18 @@ void delete_area(Area* area){ //delete the area
     free(area);
 }
 
-void draw_area(Area* area){ //⚠️
+void draw_area(Area* area){
     ////check if there is enough space in the area to store the shape ???
     NODE* tmp = area->shapes;
     while (tmp != NULL){
         int nb_pix = 0;
         Pixel**List_Pixels=create_shape_to_pixel(tmp->value, &nb_pix);
         for (int j=0; j<nb_pix; j++){
-            area->mat[List_Pixels[j]->px][List_Pixels[j]->py]=1;
+            if ((List_Pixels[j]->px >= 0) && (List_Pixels[j]->px <= area->height) && (List_Pixels[j]->py) >= 0 && (List_Pixels[j]->py <= area->width)){
+                area->mat[List_Pixels[j]->px-1][List_Pixels[j]->py-1]=1;
+            }
+            else{
+                continue;}
         }
         delete_pixel_shape(&List_Pixels, nb_pix);
         tmp = tmp->succ;
