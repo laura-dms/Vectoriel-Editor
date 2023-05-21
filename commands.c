@@ -88,18 +88,48 @@ int read_exec_command(Command* cmd){
 }
 
 void read_from_stdin(Command* cmd){
-    char* str = NULL;
-    int i = 0, nb_word = 1;
-    printf("\n>> ");
-    gets(str);
-    while(str[i] != '\0'){
-        if (str[i] == ' '){
-            nb_word++;
+    printf("\n»");
+    char word[100];
+    fgets(word,100, stdin);
+    char* sentence[30] = &split_strings(word); //array of strings
+    add_str_param(cmd, sentence[0]);
+    for (int i=0; i<30; i++)
+    {
+        if (sizeof(sentence[i])==4){  //if it's an integer
+            add_int_param(cmd, *sentence[i]);
         }
-        if(nb_word == 1){
-            cmd->name[i] = str[i];
-        }
-        i++;
     }
-    //c'est là où on call les fct pour remplir je crois
 }
+
+char* split_strings(char str[]) //function to split a sentence
+{
+    int init_size = strlen(str);
+    char delim[] = " ";
+    char* sentence[30];
+    int index = 0;
+    char *ptr = strtok(str, delim); //return a pointer to the character of the next string
+    sentence[index++]=ptr;
+    printf("With strtok function :\n");
+    while(ptr != NULL)
+    {
+        printf("'%s'\n", ptr);
+        ptr = strtok(NULL, delim); //return NULL when whole string is split
+        sentence[index++]=ptr;
+    }
+    printf("\nArray of strings :\n");
+    for (int i=0; i<index; i++)
+    {
+        if (sentence[i]!=NULL) {
+            printf("%s\n", sentence[i]);
+        }
+    }
+    return sentence;
+}
+
+/*void menu_commands()
+{
+    printf("\n»");
+    char word[100];
+    fgets(word,100, stdin);
+    split_strings(word);
+}*/
