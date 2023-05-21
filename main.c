@@ -33,8 +33,11 @@ int main(){
     
     //char str[] = "LINE 9 10";
     //split_strings(str);
+    //menu_commands();
 
-    menu_commands();
-
+    Command cm;
+    Command * command = &cm; //pointer to the structure Command
+    read_from_stdin(command);
+    return 0;
     return 0;
 }
