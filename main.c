@@ -39,5 +39,4 @@ int main(){
     Command * command = &cm; //pointer to the structure Command
     read_from_stdin(command);
     return 0;
-    return 0;
 }
