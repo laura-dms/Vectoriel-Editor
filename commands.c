@@ -85,29 +85,51 @@ int read_exec_command(Command* cmd){
     {
         printf("The list of commands are :\n");
     }
+    else
+    {
+        return -1; //no existing command
+    }
 }
-
+*/
 void read_from_stdin(Command* cmd){
-    printf("\n»");
+    printf("\n» Enter your command : ");
     char word[100];
     fgets(word,100, stdin);
-    char* sentence[30] = &split_strings(word); //array of strings
-    add_str_param(cmd, sentence[0]);
+    char sentence[30] = split_strings(word); //array of strings
+
+    //check if the type of command is correct
+    if (sentence[0]=="line" || sentence[0]=="point" || sentence[0]=="cirlce" || sentence[0]=="square" || sentence[0]=="rectangle" || sentence[0]=="polygon")
+    {
+        cmd->name = sentence[0]; //char name[50] and not pointer to strings
+    }
+    else
+    {
+        printf("\nThe type of shape is invalid ❌ \n Please enter again another command :");
+        read_from_stdin(cmd); //enter again another command
+    }
+
     for (int i=0; i<30; i++)
     {
-        if (sizeof(sentence[i])==4){  //if it's an integer
-            add_int_param(cmd, *sentence[i]);
+        if (sizeof(sentence[i])==sizeof(int)){  //if it's an integer
+            add_int_param(cmd, sentence[i]); //prends la valeur du pointer❌
+        }
+        else if (sizeof(sentence[i])==sizeof(char))
+        {
+            add_str_param(cmd, &sentence[i]);
         }
     }
 }
 
-char* split_strings(char str[]) //function to split a sentence
+char* split_strings(char str[]) ///function to split a sentence
 {
+    /*PROBLEM : strtok returns a pointer so we need a dynamic array of strings char*
+    * but in the structure command, cmd->name is char name[50] ❌
+     * the function works but problem of return type ✅❌*/
     int init_size = strlen(str);
     char delim[] = " ";
     char* sentence[30];
     int index = 0;
-    char *ptr = strtok(str, delim); //return a pointer to the character of the next string
+    char *ptr = strtok(str, delim); ///return a pointer to the character of the next string
     sentence[index++]=ptr;
     printf("With strtok function :\n");
     while(ptr != NULL)
