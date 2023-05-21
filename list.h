@@ -16,5 +16,6 @@ typedef NODE* LIST;
 NODE* create_node(Shape*);
 LIST add_to_list(LIST, Shape*) ;
 void print_list(LIST);
+void delete_list(LIST*);
 
 #endif
