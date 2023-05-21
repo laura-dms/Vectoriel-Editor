@@ -30,3 +30,12 @@ void print_list(LIST L){
         }
     }
 }
+
+void delete_list(LIST* L){
+    NODE* tmp = *L;
+    while(*L != NULL){
+        *L = (*L)->succ;
+        free(tmp);
+        tmp = *L;
+    }
+}
