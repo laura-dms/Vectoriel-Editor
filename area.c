@@ -35,9 +35,9 @@ void clear_area(Area* area){ //✅
     }
 }
 
-void erase_area(Area* area){ // ⚠️delete all the shapes in the drawing area and the list of shapes
+void erase_area(Area* area){ // ️delete all the shapes in the drawing area and the list of shapes
     clear_area(area);
-    free(area->shapes); ///Il faut free les nodes 1 par 1
+    delete_list(&(area->shapes));
 }
 
 void delete_area(Area* area){ //delete the area
