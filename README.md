@@ -1,8 +1,8 @@
 # Vector Text-based Editor 💻💢
 
 Tâches à faire : ⚡
-- edit erase_area pour delete les nodes 1 par 1
-- afficher le polygone
+
+
 
 Reste à faire : 👈
 
