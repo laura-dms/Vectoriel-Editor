@@ -12,7 +12,7 @@ int main(){
 
     do{
         m_state = menu(&nb_shape, &shapes);
-    }while(m_state != 1);*/
+    }while(m_state != 1);
 
     Area* draw_zone = create_area(30, 30);
     Shape* shape = create_circle_shape(26, 26, 7);
@@ -29,7 +29,12 @@ int main(){
     draw_area (draw_zone);
     print_area (draw_zone);
     erase_area (draw_zone);
-    delete_area (draw_zone);
+    delete_area (draw_zone);*/
+    
+    //char str[] = "LINE 9 10";
+    //split_strings(str);
+
+    menu_commands();
 
     return 0;
 }
