@@ -57,7 +57,14 @@ Shape *create_polygon_shape(int n){ //lst[] ) = 1D array of Point* of the polygo
 }
 
 void delete_shape(Shape * shape){
-    free(shape); //free the dynamic allocated memory of shape
+    switch(shape->shape_type){
+        case 0: delete_point(shape->ptrShape);break;
+        case 1: delete_line(shape->ptrShape);break;
+        case 2: delete_square(shape->ptrShape);break;
+        case 3: delete_rectangle(shape->ptrShape);break;
+        case 4: delete_circle(shape->ptrShape);break;
+        case 5: delete_polygon(shape->ptrShape);break;
+    }
 }
 
 void print_shape(Shape * shape){
