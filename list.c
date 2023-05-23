@@ -5,20 +5,20 @@ File that contains the prototypes of the functions about the list of nodes*/
 #include <stdlib.h>
 #include <stdio.h>
 
-NODE* create_node(Shape* val){
+NODE* create_node(Shape* val){ /// create a new_node and return it
     NODE* new_node = (NODE*)malloc(sizeof(NODE));
     new_node->value = val;
     new_node->succ = NULL;
     return new_node;
 }
 
-LIST add_to_list(LIST L, Shape* val){
+LIST add_to_list(LIST L, Shape* val){ /// insert in the SLL a new node at the head
     NODE* new = create_node(val);
     new->succ=L;
     return new;
 }
 
-void print_list(LIST L){
+void print_list(LIST L){ ///display information of each shape of the list of shapes by running through the list with a temporary pointer
     if (L==NULL){
         printf("Empty list");
     }
@@ -31,7 +31,7 @@ void print_list(LIST L){
     }
 }
 
-void delete_list(LIST* L){
+void delete_list(LIST* L){ ///deplace the head to the tail by one node and free the first node with a temporary pointer
     NODE* tmp = *L;
     while(*L != NULL){
         *L = (*L)->succ;
