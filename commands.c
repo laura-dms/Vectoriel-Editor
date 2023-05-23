@@ -3,15 +3,15 @@
 #include <stdio.h>
 #include <string.h>
 #include "area.h"
+#include "Structure_shape.h"
 
-Command* create_commande(){ //create a variable of type command
+/*Command* create_commande(){ //create a variable of type command
     Command* cmd = (Command*)malloc(sizeof(Command));
     cmd->int_size = 0;
     cmd->str_size = 0;
 }
 
 void add_str_param(Command* cmd, char* p){
-    //je crois que cette fct est inutile puisqu'on aura pas de str en paramètre
     cmd->str_params[cmd->str_size] = p;
     cmd->str_size++;
 }
@@ -81,7 +81,7 @@ int read_exec_command(Command* cmd){
     {
         erase_area(draw_zone);
     }
-    else if (strcmp(cmd, "help")==0)
+    else if (strcmp(cmd->name, "help")==0)
     {
         printf("The list of commands are :\n");
     }
@@ -89,18 +89,22 @@ int read_exec_command(Command* cmd){
     {
         return -1; //no existing command
     }
-}
-*/
+}*/
+
 void read_from_stdin(Command* cmd){
     printf("\n» Enter your command : ");
     char word[100];
     fgets(word,100, stdin);
-    char sentence[30] = split_strings(word); //array of strings
+    char** sentence= split_strings(word); //array of strings
 
     //check if the type of command is correct
-    if (sentence[0]=="line" || sentence[0]=="point" || sentence[0]=="cirlce" || sentence[0]=="square" || sentence[0]=="rectangle" || sentence[0]=="polygon")
-    {
-        cmd->name = sentence[0]; //char name[50] and not pointer to strings
+    if (strcmp(sentence[0],"line")==0 || strcmp(sentence[0],"point")==0 || strcmp(sentence[0],"cirlce")==0 || strcmp(sentence[0],"square")==0 || strcmp(sentence[0],"rectangle")==0 || strcmp(sentence[0],"polygon")==0) {
+        printf("\n GOOD NAME \n");
+        int len=strlen(sentence[0]);
+        for (int i=0; i<len; i++)
+        {
+            cmd->name[i]=sentence[0][i]; //add the command to the command's name
+        }
     }
     else
     {
@@ -108,16 +112,16 @@ void read_from_stdin(Command* cmd){
         read_from_stdin(cmd); //enter again another command
     }
 
-    for (int i=0; i<30; i++)
+    for (int i=0; i<strlen(sentence); i++) ///run through the array of strings
     {
-        if (sizeof(sentence[i])==sizeof(int)){  //if it's an integer
-            add_int_param(cmd, sentence[i]); //prends la valeur du pointer❌
-        }
-        else if (sizeof(sentence[i])==sizeof(char))
+        for (int k=0; k<strlen(sentence[i]); k++) ///run through the string to compare each character
         {
-            add_str_param(cmd, &sentence[i]);
+            if ((sentence[i][k])>=48 && (sentence[i][k])<=57){  //check if this is an integer with ascii code
+                add_int_param(cmd, sentence[i][k]);
+            }
         }
     }
+    free(sentence);
 }
 
 char** split_strings(char* str){ //✅function to split a sentence
