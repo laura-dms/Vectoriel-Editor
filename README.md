@@ -3,5 +3,7 @@
 Reste à faire : 👈
 
 - Part 3 Commands 
-- Trouver quoi mettre dans le main
+
+
+FINIR LE PROJET POUR 23H59 !!!!
 
