@@ -26,6 +26,28 @@ void add_shape_to_area(Area* area, Shape* shape){ //✅ insert the shape given i
     area->nb_shape+=1;
 }
 
+int delete_shape_in_area(Area* area, int id){
+    NODE* tmp = area->shapes;
+    NODE* ptmp;
+    if(tmp != NULL && tmp->value->id == id){
+        area->shapes = tmp->succ;
+        delete_shape(tmp->value);
+        return 1;
+    }
+    while(tmp != NULL && tmp->value->id != id){
+        ptmp = tmp;
+        tmp = tmp->succ;
+    }
+    if(tmp == NULL){
+        printf("\nThe shape with the given id doesn't exist !");
+        return 0;
+    }
+    ptmp->succ = tmp->succ;
+    tmp->succ = NULL;
+    delete_shape(tmp->value);
+    return 1;
+}
+
 void clear_area(Area* area){ //✅
     int i,j;
     for (i=0; i<area->height; i++){
