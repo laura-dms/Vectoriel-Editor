@@ -9,6 +9,9 @@ Command* create_command(){ //create a variable of type command
     Command* cmd = (Command*)malloc(sizeof(Command));
     cmd->int_size = 0;
     cmd->str_size = 0;
+    //int* list_int
+    cmd->int_params = (int*)malloc(10*sizeof(int));
+    cmd->str_params = (char**) malloc(15*sizeof(char*));
     return cmd;
 }
 
@@ -132,10 +135,12 @@ void read_from_stdin(Command* cmd){
         int len=strlen(sentence[0]);
         for (int i=0; i<len; i++)
         {
-            //if (sentence[0][i]!=NULL)
-            cmd->name[i]=sentence[0][i]; //add the command to the command's name
+            if (sentence[0][i]>=97 && sentence[0][i]<=122)
+            {
+                cmd->name[i]=sentence[0][i]; //add the command to the command's name
+            }
         }
-        printf("Name command : %s", cmd->name);
+        printf("\nName command : %s of size %d", cmd->name, len);
     }
     else
     {
@@ -149,15 +154,30 @@ void read_from_stdin(Command* cmd){
         ///do nothing
     }
     printf("\nSize of sentence : %d", size_sentence);
+    ///BON JUSQU'ICI ✅✅✅
 
     ///Add integers to the array of integers of command
+
     for (int i=0; i<size_sentence; i++) ///run through the array of strings
     {
-        for (int k=0; k<strlen(sentence[i]) && sentence[i]!=NULL; k++) ///run through the string to compare each character
+        for (int k=0; k<=strlen(sentence[i]) && sentence[i]!=NULL; k++) ///run through the string to compare each character
         {
-            if ((sentence[i][k])>=48 && (sentence[i][k])<=57 && (sentence[i][k+1])>=48 && (sentence[i][k+1])<=57){  //check if this is an integer with ascii code
-                add_int_param(cmd, *((*(sentence+i)) + k));
+            if ((sentence[i][k])>=48 && (sentence[i][k])<=57){  //check if this is an integer with ascii code
+                int val=sentence[i][k]- '0';
+                add_int_param(cmd, val);
             }
+            /*else if  ((sentence[i][k])>=48 && (sentence[i][k])<=57 && (sentence[i][k+1])>=48 && (sentence[i][k+1])<=57){  //check if this is an integer with ascii code
+                char list_int[5];
+                list_int[0]=sentence[i][k];
+                char list_int_1[5];
+                list_int_1[0]=sentence[i][k+1];
+                char* list_int_f=strcat(list_int, list_int_1);
+                printf("\nCase 2 int in one string : %s", list_int_f);
+
+                int val1=*list_int_f- '0';
+                printf("Number obtain : %d", val1);
+                add_int_param(cmd, val1);
+            }*/
         }
     }
     printf("\n\nArray of integers of size %d: ", cmd->int_size);
@@ -168,7 +188,7 @@ void read_from_stdin(Command* cmd){
     free(sentence);
 }
 
-char** split_strings(char* str) { ///function to split a sentence
+char** split_strings(char* str) { ///function to split a sentence ✅
     char delim[] = " ";
     char **sentence = (char **) malloc(50 * sizeof(char *));
     int index = 0;
@@ -187,10 +207,11 @@ char** split_strings(char* str) { ///function to split a sentence
     return sentence;
 }
 
-void delete_cmd(Command* cmd){
-    free(cmd);
+void delete_cmd(Command* cmd){ ///✅
     for (int i=0; i<cmd->str_size; i++)
     {
         free(cmd->str_params[i]); //free the memory of the arrays of strings
     }
+    free(cmd->int_params);
+    free(cmd);
 }
