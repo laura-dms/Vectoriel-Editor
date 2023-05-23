@@ -1,9 +1,5 @@
 # Vector Text-based Editor 💻💢
 
-Tâches à faire : ⚡
-
-
-
 Reste à faire : 👈
 
 - Part 3 Commands 
