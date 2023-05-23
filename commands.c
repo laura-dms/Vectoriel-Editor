@@ -3,12 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "area.h"
-#include "Structure_shape.h"
+//#include "Structure_shape.h"
 
-/*Command* create_commande(){ //create a variable of type command
+Command* create_command(){ //create a variable of type command
     Command* cmd = (Command*)malloc(sizeof(Command));
     cmd->int_size = 0;
     cmd->str_size = 0;
+    return cmd;
 }
 
 void add_str_param(Command* cmd, char* p){
@@ -26,70 +27,98 @@ void free_cmd(Command* cmd){
     free(cmd);
 }
 
-int read_exec_command(Command* cmd){
-    Area* draw_zone = create_area(10,5);
-    if (strcmp(cmd, "clear")==0)
-    {
+void read_exec_command(Command* cmd){
+    Area* draw_zone = create_area(30,30);
+    /*Code error :
+     * 1111 => exit the program
+     * -1 => no existing command*/
 
-    }
-    else if (strcmp(cmd, "exit")==0)
+    if (strcmp(cmd->name, "clear")==0)
     {
-        //exit the program
+        clear_area(draw_zone);
     }
-    else if (strcmp(cmd, "point")==0)
+    else if (strcmp(cmd->name, "exit")==0)
     {
-        Shape* shape2 = create_point_shape(5, 5);
-        add_shape_to_area(shape2, draw_zone);
-        //add a point
+        exit(1111);//exit the program in execution (0 : returning_value)
     }
-    else if (strcmp(cmd, "line")==0)
+    else if (strcmp(cmd->name, "point")==0) //add a point
     {
-        Shape* shape3 = create_point_shape(5, 5);
-        add_shape_to_area(shape3, draw_zone);
-        //add a line
+        Shape* shape1 = create_point_shape(5, 5);
+        add_shape_to_area(draw_zone, shape1);
     }
-    else if (strcmp(cmd, "circle")==0)
+    else if (strcmp(cmd->name, "line")==0) //add a line
     {
-        //add a circle
+        Shape* line1 = create_line_shape(10,5,8,12);
+        add_shape_to_area(draw_zone, line1);
     }
-    else if (strcmp(cmd, "square")==0)
+    else if (strcmp(cmd->name, "circle")==0)  //add a circle
     {
-        //add a square
+        Shape* circle1 = create_circle_shape(3, 3, 5);
+        add_shape_to_area(draw_zone, circle1);
     }
-    else if (strcmp(cmd, "rectangle")==0)
+    else if (strcmp(cmd->name, "square")==0) //add a square
     {
-        //add a rectangle
+        Shape* square1 = create_square_shape(3,27,4);
+        add_shape_to_area(draw_zone, square1);
     }
-    else if (strcmp(cmd, "polygon")==0)
+    else if (strcmp(cmd->name, "rectangle")==0) //add a rectangle
     {
-
+        Shape* rectangle1 = create_rectangle_shape(16,9,10,4);
+        add_shape_to_area(draw_zone, rectangle1);
     }
-    else if (strcmp(cmd, "plot")==0)
+    else if (strcmp(cmd->name, "polygon")==0)
     {
-
+        Shape* polygon1 = create_polygon_shape(4);
+        add_shape_to_area(draw_zone, polygon1);
     }
-    else if (strcmp(cmd, "list")==0)
+    else if (strcmp(cmd->name, "plot")==0) ///refresh the screen to display all geometric shapes in the image
     {
-
+        clear_area(draw_zone);
+        draw_area(draw_zone);
+        print_area(draw_zone);
     }
-    else if (strcmp(cmd, "delete")==0)
+    else if (strcmp(cmd->name, "list")==0)
     {
+        print_list(draw_zone->shapes);
+    }
+    else if (strcmp(cmd->name, "delete")==0)
+    {
+        delete_area(draw_zone);
+        delete_cmd(cmd);
         //free()//delete a shape (id) from the list of shapes
         //connect the node to the next node with gets_next_id()
     }
-    else if (strcmp(cmd, "erase")==0)
+    else if (strcmp(cmd->name, "erase")==0)
     {
         erase_area(draw_zone);
     }
     else if (strcmp(cmd->name, "help")==0)
     {
-        printf("The list of commands are :\n");
+        printf("The list of commands are :\n"
+               "Each command must be of the form : <command name> [parameters]. The presence of parameters\n"
+               "is optional as it depends on the type of command to be given.\n"
+               "In this project, the list of commands that the program must interpret is as follows:\n"
+               "• clear : clear the screen\n"
+               "• exit : exit the program\n"
+               "• point x y : add a point\n"
+               "• line x1 y1 x2 y2 : add a segment connecting two points (x1, y1) and (x2, y2)\n"
+               "• circle x y radius : add a circle of centre (x, y) and a radius radius\n"
+               "• square x y length : add a square whose upper left corner is (x, y) and whose side is length.\n"
+               "• rectangle x y width height : add a rectangle whose upper left corner is (x, y), whose width\n"
+               "is width and whose height is height\n"
+               "• polygon x1 y1 x2 y2 x3 y3 : add a polygon with the list of given points\n"
+               "• plot : refresh the screen to display all the geometric shapes in the image (depending on the\n"
+               "display rules)\n"
+               "• list : display a list of all the geometric shapes that make up the image and all their information\n"
+               "• delete id : delete a shape from its identifier id.\n"
+               "• erase : remove all shapes from an image.\n"
+               "• help : display the list");
     }
     else
     {
-        return -1; //no existing command
+        exit(-1); //no existing command
     }
-}*/
+}
 
 void read_from_stdin(Command* cmd){
     printf("\n» Enter your command : ");
@@ -111,8 +140,11 @@ void read_from_stdin(Command* cmd){
         printf("\nThe type of shape is invalid ❌ \n Please enter again another command :");
         read_from_stdin(cmd); //enter again another command
     }
+    ///Calculate the length of the aray of strings
+    int size_array = sizeof(sentence)/sizeof(sentence[0]);
+    printf("Size of array sentence : %zu\n", size_array);
 
-    for (int i=0; i<strlen(sentence); i++) ///run through the array of strings
+    /*for (int i=0; i<size_array; i++) ///run through the array of strings
     {
         for (int k=0; k<strlen(sentence[i]); k++) ///run through the string to compare each character
         {
@@ -121,24 +153,33 @@ void read_from_stdin(Command* cmd){
             }
         }
     }
-    free(sentence);
+    free(sentence);*/
 }
 
-char** split_strings(char* str){ //✅function to split a sentence
+char** split_strings(char* str) { ///function to split a sentence
     char delim[] = " ";
-    char** sentence= (char**) malloc(50*sizeof(char*));
+    char **sentence = (char **) malloc(50 * sizeof(char *));
     int index = 0;
     char *ptr = strtok(str, delim); ///return a pointer to the character of the next string
-    sentence[index++]=ptr;
-    while(ptr != NULL){
+    sentence[index++] = ptr;
+    while (ptr != NULL) {
         ptr = strtok(NULL, delim); //return NULL when whole string is split
-        sentence[index++]=ptr;
+        sentence[index++] = ptr;
     }
-    /*printf("\nArray of strings :\n");
+    printf("\nArray of strings :\n");
     for (int i=0; i<index; i++){
         if (sentence[i]!=NULL){
             printf("%s\n", sentence[i]);
         }
-    }*/
+    }
     return sentence;
+}
+
+void delete_cmd(Command* cmd){
+    free(cmd);
+    for (int i=0; i<cmd->str_size; i++)
+    {
+        free(cmd->str_params[i]); //free the memory of the arrays of strings
+    }
+
 }
