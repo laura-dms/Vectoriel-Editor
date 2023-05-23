@@ -160,24 +160,13 @@ void read_from_stdin(Command* cmd){
 
     for (int i=0; i<size_sentence; i++) ///run through the array of strings
     {
-        for (int k=0; k<=strlen(sentence[i]) && sentence[i]!=NULL; k++) ///run through the string to compare each character
+        for (int k=0; k<strlen(sentence[i]) && sentence[i]!=NULL; k++) ///run through the string to compare each character
         {
-            if ((sentence[i][k])>=48 && (sentence[i][k])<=57){  //check if this is an integer with ascii code
-                int val=sentence[i][k]- '0';
-                add_int_param(cmd, val);
+            if ((sentence[i][k])>=48 && (sentence[i][k])<=57 && sentence[i][k]!='\0'){  //check if this is an integer with ascii code
+                int num = atoi(&sentence [i][k]);
+                //int val=sentence[i][k]- '0';
+                add_int_param(cmd, num);
             }
-            /*else if  ((sentence[i][k])>=48 && (sentence[i][k])<=57 && (sentence[i][k+1])>=48 && (sentence[i][k+1])<=57){  //check if this is an integer with ascii code
-                char list_int[5];
-                list_int[0]=sentence[i][k];
-                char list_int_1[5];
-                list_int_1[0]=sentence[i][k+1];
-                char* list_int_f=strcat(list_int, list_int_1);
-                printf("\nCase 2 int in one string : %s", list_int_f);
-
-                int val1=*list_int_f- '0';
-                printf("Number obtain : %d", val1);
-                add_int_param(cmd, val1);
-            }*/
         }
     }
     printf("\n\nArray of integers of size %d: ", cmd->int_size);
