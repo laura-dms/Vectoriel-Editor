@@ -8,9 +8,9 @@ File that contains the definitions of the functions about the structure shape*/
 typedef enum { POINT, LINE, SQUARE, RECTANGLE, CIRCLE, POLYGON} SHAPE_TYPE;
 
 typedef struct shape {
-    int id; // unique id of the shape
-    SHAPE_TYPE shape_type; // type of the pointed shape
-    void *ptrShape; // pointer on any shape
+    unsigned int id; //unique id of the shape
+    SHAPE_TYPE shape_type;
+    void *ptrShape;
 }Shape;
 
 Shape *create_empty_shape(SHAPE_TYPE shape_type);
