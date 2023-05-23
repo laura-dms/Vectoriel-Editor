@@ -73,13 +73,13 @@ int read_exec_command(Command** cmd, Area** draw_zone){
         printf("\nThe shape has been correctly added !\n");
     }
 
-    else if (!strcmp((*cmd)->name, "polygon")){ //DOES NOT WORK YET
+    else if (!strcmp((*cmd)->name, "polygon")){ 
         Shape* polygon1 = create_polygon_shape(4);
         add_shape_to_area(*draw_zone, polygon1);
         printf("\nThe shape has been correctly added !\n");
     }
 
-    else if (!strcmp((*cmd)->name, "plot")){ ///refresh the screen to display all geometric shapes in the image
+    else if (!strcmp((*cmd)->name, "plot")){
         draw_area(*draw_zone);
         print_area(*draw_zone);
     }
@@ -89,7 +89,7 @@ int read_exec_command(Command** cmd, Area** draw_zone){
         print_list((*draw_zone)->shapes);
     }
 
-    else if (!strcmp((*cmd)->name, "delete")){ //delete a shape from its id
+    else if (!strcmp((*cmd)->name, "delete")){
         delete_shape_in_area(*draw_zone, ((*cmd)->int_params)[0]);
     }
 
