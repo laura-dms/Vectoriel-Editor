@@ -4,12 +4,14 @@ File that contains the prototypes of the functions about the structure shape*/
 #include "shapes.h"
 #include <stdlib.h>
 #include "Structure_shape.h"
+#include "id.h"
+#include <stdio.h>
 
 //Create a dynamic allocation which contains the type of shape given in parameter
 Shape *create_empty_shape(SHAPE_TYPE shape_type) {
     Shape *shp = (Shape *) malloc(sizeof(Shape));
-    shp->ptrShape = NULL; //void pointer that will takes the type of the wanted shape
-    shp->id = 1; //called later get_next_id() = address of the next box of SLL;
+    shp->ptrShape = NULL;
+    shp->id = get_next_id();
     shp->shape_type = shape_type;
     return shp;
 }
@@ -76,4 +78,5 @@ void print_shape(Shape * shape){
         case 4: print_circle(shape->ptrShape);break;
         case 5: print_polygon(shape->ptrShape);
     }
+    printf("\nID: %d\n", shape->id);
 }
