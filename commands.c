@@ -30,7 +30,7 @@ void free_cmd(Command* cmd){
     free(cmd);
 }
 
-void read_exec_command(Command* cmd){
+int read_exec_command(Command* cmd){
     Area* draw_zone = create_area(30,30);
     /*Code error :
      * 1111 => exit the program
@@ -42,7 +42,7 @@ void read_exec_command(Command* cmd){
     }
     else if (strcmp(cmd->name, "exit")==0)
     {
-        exit(1111);//exit the program in execution (0 : returning_value)
+       return 0;//exit the program in execution
     }
     else if (strcmp(cmd->name, "point")==0) //add a point
     {
@@ -117,21 +117,18 @@ void read_exec_command(Command* cmd){
                "• erase : remove all shapes from an image.\n"
                "• help : display the list");
     }
-    else
-    {
-        exit(-1); //no existing command
-    }
+    return 1;
 }
 
-void read_from_stdin(Command* cmd){
-    printf("\n>> ");
+void read_from_stdin(Command* cmd){ ///✅
+    printf("\n>> Please enter a command :\n>> ");
     char word[100];
     fgets(word,100, stdin);
     char** sentence= split_strings(word); //array of strings
 
     //check if the type of command is correct
     if (strcmp(sentence[0],"line")==0 || strcmp(sentence[0],"point")==0 || strcmp(sentence[0],"circle")==0 || strcmp(sentence[0],"square")==0 || strcmp(sentence[0],"rectangle")==0 || strcmp(sentence[0],"polygon")==0 || strcmp(sentence[0],"delete")==0)  {
-        //printf("\nGOOD NAME \n");
+        printf("\nGOOD NAME \n");
         int len=strlen(sentence[0]);
         for (int i=0; i<len; i++)
         {
@@ -164,8 +161,8 @@ void read_from_stdin(Command* cmd){
             printf("\n%d", cmd->int_params[r]);
         }*/
     }
-    else if ((strcmp(sentence[0],"clear")==0 || strcmp(sentence[0],"exit")==0 || strcmp(sentence[0],"plot")==0 || strcmp(sentence[0],"list")==0 || strcmp(sentence[0],"erase")==0 || strcmp(sentence[0],"help")==0)) {
-        printf("\nGOOD NAME \n");
+    else if (strcmp(sentence[0], "clear") == 0 || strcmp(sentence[0], "exit") == 0 || strcmp(sentence[0], "plot") == 0 || strcmp(sentence[0], "list") == 0 || strcmp(sentence[0], "erase") == 0 || strcmp(sentence[0], "help") == 0) {
+        printf("\nGOOD NAME\n");
         int len = strlen(sentence[0]);
         for (int i = 0; i < len; i++) {
             if (sentence[0][i] >= 97 && sentence[0][i] <= 122) {
@@ -175,10 +172,11 @@ void read_from_stdin(Command* cmd){
     }
     else
     {
-        printf("\nThe type of shape is invalid.\nPlease enter again another command.\n");
+        printf("\nThe type of command is invalid.\nPlease enter again another command.\n");
         read_from_stdin(cmd); //enter again another command
     }
     free(sentence);
+    //delete_cmd(cmd);
 }
 
 char** split_strings(char* str) { ///function to split a sentence ✅
