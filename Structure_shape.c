@@ -1,6 +1,3 @@
-/*Project Vector Text-based Editor, Laura Damas and Laura Poilane, L1 Int1
-File that contains the prototypes of the functions about the structure shape*/
-
 #include "shapes.h"
 #include <stdlib.h>
 #include "Structure_shape.h"
@@ -51,7 +48,7 @@ Shape *create_circle_shape(int px, int py, int radius){
     return shp;
 }
 
-Shape *create_polygon_shape(int n){ //lst[] ) = 1D array of Point* of the polygon (
+Shape *create_polygon_shape(int n){
     Shape *shp = create_empty_shape(POLYGON);
     Polygon * poly = create_polygon(n);
     shp->ptrShape = poly;
