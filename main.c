@@ -35,8 +35,11 @@ int main(){
     //split_strings(str);
     //menu_commands();
 
-    Command cm;
+    /*Command cm;
     Command * command = &cm; //pointer to the structure Command
+    read_from_stdin(command);*/
+    
+    Command* command = create_command();
     read_from_stdin(command);
     return 0;
 }
