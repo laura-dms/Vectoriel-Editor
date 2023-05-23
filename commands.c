@@ -121,39 +121,51 @@ void read_exec_command(Command* cmd){
 }
 
 void read_from_stdin(Command* cmd){
-    printf("\n» Enter your command : ");
+    printf("\n>> Enter your command : ");
     char word[100];
     fgets(word,100, stdin);
     char** sentence= split_strings(word); //array of strings
 
     //check if the type of command is correct
     if (strcmp(sentence[0],"line")==0 || strcmp(sentence[0],"point")==0 || strcmp(sentence[0],"cirlce")==0 || strcmp(sentence[0],"square")==0 || strcmp(sentence[0],"rectangle")==0 || strcmp(sentence[0],"polygon")==0) {
-        printf("\n GOOD NAME \n");
+        printf("\nGOOD NAME \n");
         int len=strlen(sentence[0]);
         for (int i=0; i<len; i++)
         {
+            //if (sentence[0][i]!=NULL)
             cmd->name[i]=sentence[0][i]; //add the command to the command's name
         }
+        printf("Name command : %s", cmd->name);
     }
     else
     {
-        printf("\nThe type of shape is invalid ❌ \n Please enter again another command :");
+        printf("\nThe type of shape is invalid ❌ \nPlease enter again another command\n");
         read_from_stdin(cmd); //enter again another command
     }
     ///Calculate the length of the aray of strings
-    int size_array = sizeof(sentence)/sizeof(sentence[0]);
-    printf("Size of array sentence : %zu\n", size_array);
-
-    /*for (int i=0; i<size_array; i++) ///run through the array of strings
+    int size_sentence = -1;
+    while (sentence[++size_sentence]!=NULL)
     {
-        for (int k=0; k<strlen(sentence[i]); k++) ///run through the string to compare each character
+        ///do nothing
+    }
+    printf("\nSize of sentence : %d", size_sentence);
+
+    ///Add integers to the array of integers of command
+    for (int i=0; i<size_sentence; i++) ///run through the array of strings
+    {
+        for (int k=0; k<strlen(sentence[i]) && sentence[i]!=NULL; k++) ///run through the string to compare each character
         {
-            if ((sentence[i][k])>=48 && (sentence[i][k])<=57){  //check if this is an integer with ascii code
-                add_int_param(cmd, sentence[i][k]);
+            if ((sentence[i][k])>=48 && (sentence[i][k])<=57 && (sentence[i][k+1])>=48 && (sentence[i][k+1])<=57){  //check if this is an integer with ascii code
+                add_int_param(cmd, *((*(sentence+i)) + k));
             }
         }
     }
-    free(sentence);*/
+    printf("\n\nArray of integers of size %d: ", cmd->int_size);
+    for (int r=0; r<cmd->int_size; r++)
+    {
+        printf("\n%d", cmd->int_params[r]);
+    }
+    free(sentence);
 }
 
 char** split_strings(char* str) { ///function to split a sentence
@@ -181,5 +193,4 @@ void delete_cmd(Command* cmd){
     {
         free(cmd->str_params[i]); //free the memory of the arrays of strings
     }
-
 }
