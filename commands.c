@@ -120,38 +120,21 @@ void read_from_stdin(Command* cmd){
     }
 }
 
-char* split_strings(char str[]) ///function to split a sentence
-{
-    /*PROBLEM : strtok returns a pointer so we need a dynamic array of strings char*
-    * but in the structure command, cmd->name is char name[50] ❌
-     * the function works but problem of return type ✅❌*/
-    int init_size = strlen(str);
+char** split_strings(char* str){ //✅function to split a sentence
     char delim[] = " ";
-    char* sentence[30];
+    char** sentence= (char**) malloc(50*sizeof(char*));
     int index = 0;
     char *ptr = strtok(str, delim); ///return a pointer to the character of the next string
     sentence[index++]=ptr;
-    printf("With strtok function :\n");
-    while(ptr != NULL)
-    {
-        printf("'%s'\n", ptr);
+    while(ptr != NULL){
         ptr = strtok(NULL, delim); //return NULL when whole string is split
         sentence[index++]=ptr;
     }
-    printf("\nArray of strings :\n");
-    for (int i=0; i<index; i++)
-    {
-        if (sentence[i]!=NULL) {
+    /*printf("\nArray of strings :\n");
+    for (int i=0; i<index; i++){
+        if (sentence[i]!=NULL){
             printf("%s\n", sentence[i]);
         }
-    }
+    }*/
     return sentence;
 }
-
-/*void menu_commands()
-{
-    printf("\n»");
-    char word[100];
-    fgets(word,100, stdin);
-    split_strings(word);
-}*/
